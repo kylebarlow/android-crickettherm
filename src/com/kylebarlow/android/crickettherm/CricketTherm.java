@@ -1,10 +1,13 @@
 package com.kylebarlow.android.crickettherm;
 
+import com.kylebarlow.android.crickettherm.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 public class CricketTherm extends Activity {
 	// General program todos
@@ -58,6 +61,13 @@ public class CricketTherm extends Activity {
         		secondsReading.setText(R.string.not_applicable);
         	}
         });
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
     }
     
     @Override

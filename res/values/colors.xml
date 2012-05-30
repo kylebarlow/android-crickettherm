@@ -1,0 +1,10 @@
+<!-- Color scheme from http://colorschemedesigner.com/#2W11Tw0w0w0w0 -->
+    <resources>
+        <color name="white">#FFFFFF</color>
+        <color name="black">#000000</color>
+        <color name="darkgreen">#007929</color>
+        <color name="lightgreen">#63DD8D</color>
+        <color name="lightmedgreen">#37DD6F</color>
+        <color name="darkmedgreen">#238C47</color>
+        <color name="green">#00BB3F</color>
+    </resources>

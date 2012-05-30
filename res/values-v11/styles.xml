@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style 
+        name="Theme.Lighttheme"
+        parent="android:Theme.Holo.Light">
+    </style>
+    <style 
+        name="Theme.Lighttheme.NoTitleBar"
+        parent="android:Theme.Holo.Light.NoActionBar">
+    </style>
+    <style 
+        name="Theme.Lighttheme.Fullscreen"
+        parent="android:Theme.Holo.Light.NoActionBar.Fullscreen">
+    </style>
+</resources>    
