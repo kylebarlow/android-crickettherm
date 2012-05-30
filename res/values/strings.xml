@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Welcome to CricketThermometer. Tap the button with the chirps.</string>
+    <string name="app_name">Cricket Therm</string>
+    <string name="chirpbutton">Chirp!</string>
+    <string name="temperature_not_ready">Temperature not ready</string>
+    <string name="resetbutton">Reset</string>
+    <string name="temperature">Temperature:</string>
+    <string name="chirps">Chirps:</string>
+    <string name="seconds">Seconds:</string>
+    <string name="not_applicable">N/A</string>
+</resources>

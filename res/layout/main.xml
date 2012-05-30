@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/hello"
+    android:layout_weight="0"
+    />
+<Button
+	android:text="@string/chirpbutton"
+	android:id="@+id/chirpbutton"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"
+	android:layout_weight="1"
+	android:textSize="40sp"
+	/>
+
+<TableLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:shrinkColumns="1"
+    android:layout_weight="0">
+    <TableRow>
+    <TextView  
+		android:id="@+id/temperature"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="fill_parent" 
+    	android:text="@string/temperature"
+    	android:layout_weight="1"
+    	android:gravity="center"
+    	android:textSize="25sp"
+    	/>
+	<TextView  
+		android:id="@+id/temperaturereading"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="fill_parent" 
+    	android:text="@string/temperature_not_ready"
+    	android:layout_weight="1"
+    	android:gravity="center"
+    	android:textSize="25sp"
+    	/>
+    </TableRow>
+        <TableRow>
+    <TextView  
+		android:id="@+id/chirps"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="fill_parent" 
+    	android:text="@string/chirps"
+    	android:layout_weight="1"
+    	android:gravity="center"
+    	android:textSize="25sp"
+    	/>
+	<TextView  
+		android:id="@+id/chirpsreading"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="fill_parent" 
+    	android:text="@string/not_applicable"
+    	android:layout_weight="1"
+    	android:gravity="center"
+    	android:textSize="25sp"
+    	/>
+    </TableRow>
+    <TableRow>
+    <TextView  
+		android:id="@+id/seconds"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="fill_parent" 
+    	android:text="@string/seconds"
+    	android:layout_weight="1"
+    	android:gravity="center"
+    	android:textSize="25sp"
+    	/>
+	<TextView  
+		android:id="@+id/secondsreading"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="fill_parent" 
+    	android:text="@string/not_applicable"
+    	android:layout_weight="1"
+    	android:gravity="center"
+    	android:textSize="25sp"
+    	/>
+    </TableRow>
+</TableLayout>
+
+<Button
+	android:text="@string/resetbutton"
+	android:id="@+id/resetbutton"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"
+	android:layout_weight="0"
+	/>
+
+</LinearLayout>
