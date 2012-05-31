@@ -10,4 +10,10 @@
     <string name="seconds">Seconds:</string>
     <string name="not_applicable">N/A</string>
     <string name="options">Options</string>
+    <string name="fahrenheit">Fahrenheit</string>
+    <string name="celsius">Celsius</string>
+    <string name="exit">Exit</string>
+    <string name="temperatureunits">Temperature Units</string>
+    <string name="degf">°F</string>
+    <string name="degc">°C</string>
 </resources>
