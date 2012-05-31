@@ -1,7 +1,9 @@
 package com.kylebarlow.android.crickettherm;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -35,11 +37,20 @@ public class CricketTherm extends Activity {
 	// TODO break out view changing from button onclick listeners, make general update values class
 	
 	Cricket mCricket;
-	// Preferences file
-	protected static final String PREFS_NAME = "MyPrefsFile";
-	// True if temperature to be displayed in celsius
+	// Preferences file variables
 	private boolean cTemp=false;
-	public Location mCurrentLocation;
+	private boolean mFirstLaunch=true;
+	
+	// Hard coded constants
+	protected static final String PREFS_NAME = "MyPrefsFile";
+	protected static final int MINMSECSLOCUPDATE = 10000;
+	protected static final int MINMETERSLOCUPDATE = 100;
+	
+	// Class variables
+	protected LocationManager mLocationManager;
+	protected LocationListener mLocationListener;
+	// True if temperature to be displayed in celsius
+	protected Location mCurrentLocation;
 	
     /** Called when the activity is first created. */
     @Override
@@ -47,7 +58,7 @@ public class CricketTherm extends Activity {
         super.onCreate(savedInstanceState);
         
         mCricket = new Cricket();
-        
+        loadPrefs();
         
         setContentView(R.layout.main);
         final Button chirpbutton = (Button) findViewById(R.id.chirpbutton);
@@ -60,6 +71,7 @@ public class CricketTherm extends Activity {
         		if (mCricket.isTemperatureReady()) {
         			int stringid;
         			double temperature;
+        			mCricket.calculateTemperature();
         			if (cTemp){
         				stringid=R.string.degc;
         				temperature=mCricket.getCTemperature();
@@ -98,43 +110,82 @@ public class CricketTherm extends Activity {
         	Toast.makeText(this, "No thermometer exists",Toast.LENGTH_SHORT).show();
         } */
         
-        /* Location test code */
-        
-        /*
+
         // Acquire a reference to the system Location Manager
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         // Define a listener that responds to location updates
-        // Better code maybe at http://stackoverflow.com/questions/5190475/how-to-get-current-location-latitude-and-longitude-in-emulator-using-android-m
-        LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-              // Called when a new location is found by the network location provider.
-              mCurrentLocation = location;
-              double latitude = location.getLatitude();
-              double longitude = location.getLongitude();
-              newLocation(latitude,longitude);
-            }
-
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-            public void onProviderEnabled(String provider) {}
-
-            public void onProviderDisabled(String provider) {}
-          };
+        mLocationListener = new MyLocationListener();
 
         // Register the listener with the Location Manager to receive location updates
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MINMSECSLOCUPDATE, MINMETERSLOCUPDATE, mLocationListener);
         
         // Wunderground key settings
         // http://www.wunderground.com/weather/api/d/8edf4c3cd56d3b83/edit.html
-        */
         
-        
+        // If first launch, ask for opt-in permission to share data
+        if (mFirstLaunch){
+        	firstLaunchYesNoAlert();
+        }
+    }
+    
+    /* Function to do inital program launch permission asking */
+    public void firstLaunchYesNoAlert() {
+    	CharSequence title = getText(R.string.firstlaunchtitle);
+    	CharSequence message = getText(R.string.firstlaunchmessage);
+    	CharSequence yes = getText(R.string.yes);
+    	CharSequence no = getText(R.string.no);
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
+        {
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    switch (which)
+                    {
+                        case DialogInterface.BUTTON_POSITIVE:
+                        	firstLaunch(true);
+                        	break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                        	firstLaunch(false);
+                        	break;	
+                    }
+                }
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message).setPositiveButton(yes, dialogClickListener).setNegativeButton(no, dialogClickListener).setTitle(title).show();
+    }
+    
+    /* Sets first launch settings */
+    private void firstLaunch(Boolean optIn) {
+    	SharedPreferences settings = getSharedPreferences(CricketTherm.PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("shareData", optIn);
+        mFirstLaunch=false;
+        editor.putBoolean("firstLaunch", false);
+
+        // Commit the edits!
+        editor.commit();
+    }
+    
+    protected final class MyLocationListener implements LocationListener {
+    	public void onLocationChanged(Location location) {
+            // Called when a new location is found by the network location provider.
+            mCurrentLocation = location;
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            newLocation(latitude,longitude);
+          }
+
+          public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+          public void onProviderEnabled(String provider) {}
+
+          public void onProviderDisabled(String provider) {}
     }
     
     private void newLocation(double latitude, double longitude){
         String message = String.format("Lat: %f Long: %f", latitude,longitude);
-        //Toast.makeText(this, message,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, message,Toast.LENGTH_SHORT).show();
     }
     
     @Override
@@ -161,6 +212,7 @@ public class CricketTherm extends Activity {
     	// Restore preferences
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         cTemp = settings.getBoolean("cTemp", false);
+        mFirstLaunch = settings.getBoolean("firstLaunch", true);
     }
     
     @Override

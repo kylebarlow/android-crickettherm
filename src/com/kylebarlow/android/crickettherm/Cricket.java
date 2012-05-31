@@ -88,7 +88,7 @@ public class Cricket{
 		return elapsedMillis()/1000;
 	}
 	
-	private void calculateTemperature(){
+	public void calculateTemperature(){
 		if(mNumberChirpsAtLastTempCalc==mNumberChirps)
 			return; // Nothing needs to be done, chirp number has not changed
 		double elapsedMinutes = elapsedMillis();
@@ -109,7 +109,6 @@ public class Cricket{
 	private double getTemperature(){
 		// Before calling this function, it is important to check isTemperatureReady
 		// Otherwise, returns temperature in celsius
-		calculateTemperature();
 		return mTemperature;
 	}
 }

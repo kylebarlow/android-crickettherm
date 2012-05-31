@@ -9,31 +9,39 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:text="@string/temperatureunits"
-            android:textColor="@color/darkgreen"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-        
+            android:text="@string/options"
+            android:layout_marginLeft="10dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/darkgreen" />
+
         <RadioGroup
             android:id="@+id/optionmenu_radiosTempSelect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/textView1"
-            android:orientation="horizontal">
+            android:orientation="horizontal" >
 
-        <RadioButton
-            android:id="@+id/optionmenu_cbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/celsius" />
-        
-        <RadioButton
-            android:id="@+id/optionmenu_fbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/fahrenheit" />
-        
+            <RadioButton
+                android:id="@+id/optionmenu_cbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/celsius" />
+
+            <RadioButton
+                android:id="@+id/optionmenu_fbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fahrenheit" />
         </RadioGroup>
+
+        <CheckBox
+            android:id="@+id/optionmenu_shareData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/optionmenu_radiosTempSelect"
+            android:text="@string/shareddatabox" />
 
         <Button
             android:id="@+id/optionmenu_exitbutton"
@@ -41,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/optionmenu_radiosTempSelect"
+            android:layout_below="@+id/optionmenu_shareData"
             android:text="@string/exit" />
 
     </RelativeLayout>

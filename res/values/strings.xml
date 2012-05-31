@@ -13,7 +13,11 @@
     <string name="fahrenheit">Fahrenheit</string>
     <string name="celsius">Celsius</string>
     <string name="exit">Exit</string>
-    <string name="temperatureunits">Temperature Units</string>
     <string name="degf">°F</string>
     <string name="degc">°C</string>
+    <string name="shareddatabox">Check to enable sharing of logged cricket chirp data (for science!). No personally identifiable data is shared.</string>
+    <string name="firstlaunchtitle">Data sharing</string>
+    <string name="firstlaunchmessage">Would you like to enable sharing of logged cricket chirp data with the developer of this application? No personally identifiable information will be shared. The data will be used for scientific research and to improve the accuracy of the cricket chirps to temperature conversion. This option can be changed later in the options menu.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
