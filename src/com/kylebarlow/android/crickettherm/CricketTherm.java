@@ -1,16 +1,20 @@
 package com.kylebarlow.android.crickettherm;
 
-import com.kylebarlow.android.crickettherm.R;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @author Kyle Barlow
@@ -35,6 +39,7 @@ public class CricketTherm extends Activity {
 	protected static final String PREFS_NAME = "MyPrefsFile";
 	// True if temperature to be displayed in celsius
 	private boolean cTemp=false;
+	public Location mCurrentLocation;
 	
     /** Called when the activity is first created. */
     @Override
@@ -82,6 +87,54 @@ public class CricketTherm extends Activity {
         		secondsReading.setText(R.string.not_applicable);
         	}
         });
+    
+        /* //Testing code to detect built in thermometers
+        SensorManager sm = (SensorManager)getSystemService(SENSOR_SERVICE);
+        List<Sensor> thermlist = sm.getSensorList(13);
+        if (thermlist.isEmpty()==false){
+        	Toast.makeText(this, "Thermometer exists",Toast.LENGTH_SHORT).show();
+        }
+        else {
+        	Toast.makeText(this, "No thermometer exists",Toast.LENGTH_SHORT).show();
+        } */
+        
+        /* Location test code */
+        
+        /*
+        // Acquire a reference to the system Location Manager
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+        // Define a listener that responds to location updates
+        // Better code maybe at http://stackoverflow.com/questions/5190475/how-to-get-current-location-latitude-and-longitude-in-emulator-using-android-m
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+              // Called when a new location is found by the network location provider.
+              mCurrentLocation = location;
+              double latitude = location.getLatitude();
+              double longitude = location.getLongitude();
+              newLocation(latitude,longitude);
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+          };
+
+        // Register the listener with the Location Manager to receive location updates
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        
+        // Wunderground key settings
+        // http://www.wunderground.com/weather/api/d/8edf4c3cd56d3b83/edit.html
+        */
+        
+        
+    }
+    
+    private void newLocation(double latitude, double longitude){
+        String message = String.format("Lat: %f Long: %f", latitude,longitude);
+        //Toast.makeText(this, message,Toast.LENGTH_SHORT).show();
     }
     
     @Override

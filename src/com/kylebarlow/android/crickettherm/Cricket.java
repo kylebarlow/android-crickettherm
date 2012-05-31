@@ -91,9 +91,11 @@ public class Cricket{
 	private void calculateTemperature(){
 		if(mNumberChirpsAtLastTempCalc==mNumberChirps)
 			return; // Nothing needs to be done, chirp number has not changed
-		double elapsedMinutes = elapsedMillis()/60000;
+		double elapsedMinutes = elapsedMillis();
+		elapsedMinutes = elapsedMinutes/60000;
 		if(elapsedMinutes<0) { //checks for uptime clock reset, which can happen occasionally to prevent overflow
 			reset(); //unpredictable functionality
+			return;
 		}
 		mPreviousTemperature=mTemperature;
 		mNumberChirpsAtLastTempCalc=mNumberChirps;
