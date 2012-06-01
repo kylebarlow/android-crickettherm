@@ -20,4 +20,5 @@
     <string name="firstlaunchmessage">Would you like to enable sharing of logged cricket chirp data with the developer of this application? No personally identifiable information will be shared. The data will be used for scientific research and to improve the accuracy of the cricket chirps to temperature conversion. This option can be changed later in the options menu.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="loggertitle">Data logger</string>
 </resources>
