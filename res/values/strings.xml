@@ -21,4 +21,6 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="loggertitle">Data logger</string>
+    <string name="logger">Logger</string>
+    <string name="delaytoolong">Interval between chirps too long! Resetting&#8230;</string>
 </resources>

@@ -13,6 +13,7 @@
     <!-- Permission to request authtokens from the AccountManager -->
     
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:theme="@style/Theme.Lighttheme">
         <activity android:name=".CricketTherm"
@@ -23,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".OptionsMenu" android:label="@string/options"></activity>
+        <activity android:name=".Logger" android:label="@string/loggertitle"></activity>
 
     </application>
 </manifest>

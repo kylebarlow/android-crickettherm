@@ -82,6 +82,12 @@ public class CricketTherm extends Activity {
         			}
         			temperatureReading.setText(String.format("%d "+getText(stringid),Math.round(temperature)));
         		}
+        		else {
+        			if (temperatureReading.getText()!=getText(R.string.temperature_not_ready)) {
+        				makeShortToast((String) getText(R.string.delaytoolong));
+        			}
+        			temperatureReading.setText(getText(R.string.temperature_not_ready));
+        		}
         		chirpsReading.setText(String.format("%d",mCricket.numberOfChirps()));
         		secondsReading.setText(String.format("%d",Math.round(mCricket.elapsedSeconds())));
         	}
@@ -90,13 +96,15 @@ public class CricketTherm extends Activity {
         final Button resetbutton = (Button) findViewById(R.id.resetbutton);
         resetbutton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-        		mCricket.reset();
-        		TextView temperatureReading = (TextView) findViewById(R.id.temperaturereading);
-        		TextView chirpsReading = (TextView) findViewById(R.id.chirpsreading);
-        		TextView secondsReading = (TextView) findViewById(R.id.secondsreading);
-        		temperatureReading.setText(getText(R.string.temperature_not_ready));
-        		chirpsReading.setText(R.string.not_applicable);
-        		secondsReading.setText(R.string.not_applicable);
+        		reset();
+        	}
+        });
+        
+        final Button loggerbutton = (Button) findViewById(R.id.loggerbutton);
+        loggerbutton.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+        		Intent i = new Intent(CricketTherm.this,Logger.class);
+        		startActivity(i);
         	}
         });
     
@@ -109,16 +117,22 @@ public class CricketTherm extends Activity {
         else {
         	Toast.makeText(this, "No thermometer exists",Toast.LENGTH_SHORT).show();
         } */
-        
 
         // Acquire a reference to the system Location Manager
+        // TODO Check if provider exists and is active
         mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
+        
         // Define a listener that responds to location updates
         mLocationListener = new MyLocationListener();
 
         // Register the listener with the Location Manager to receive location updates
-        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MINMSECSLOCUPDATE, MINMETERSLOCUPDATE, mLocationListener);
+        /* // Production code using NETWORK_PROVIDER
+        if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) { 
+        	mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,MINMSECSLOCUPDATE, MINMETERSLOCUPDATE, mLocationListener);
+        }*/
+        
+        // Testing code using GPS_PROVIDER
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,MINMSECSLOCUPDATE, MINMETERSLOCUPDATE, mLocationListener);
         
         // Wunderground key settings
         // http://www.wunderground.com/weather/api/d/8edf4c3cd56d3b83/edit.html
@@ -171,9 +185,10 @@ public class CricketTherm extends Activity {
     	public void onLocationChanged(Location location) {
             // Called when a new location is found by the network location provider.
             mCurrentLocation = location;
+            /* Testing code
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
-            newLocation(latitude,longitude);
+            newLocation(latitude,longitude);*/
           }
 
           public void onStatusChanged(String provider, int status, Bundle extras) {}
@@ -183,9 +198,14 @@ public class CricketTherm extends Activity {
           public void onProviderDisabled(String provider) {}
     }
     
+    /* Testing code
     private void newLocation(double latitude, double longitude){
         String message = String.format("Lat: %f Long: %f", latitude,longitude);
-        Toast.makeText(this, message,Toast.LENGTH_SHORT).show();
+        makeShortToast(message);
+    }*/
+    
+    private void makeShortToast(String message){
+    	Toast.makeText(this, message,Toast.LENGTH_SHORT).show();
     }
     
     @Override
@@ -215,17 +235,29 @@ public class CricketTherm extends Activity {
         mFirstLaunch = settings.getBoolean("firstLaunch", true);
     }
     
+    private void reset(){
+    	mCricket.reset();
+		TextView temperatureReading = (TextView) findViewById(R.id.temperaturereading);
+		TextView chirpsReading = (TextView) findViewById(R.id.chirpsreading);
+		TextView secondsReading = (TextView) findViewById(R.id.secondsreading);
+		temperatureReading.setText(getText(R.string.temperature_not_ready));
+		chirpsReading.setText(R.string.not_applicable);
+		secondsReading.setText(R.string.not_applicable);
+    }
+    
     @Override
     protected void onStart() {
         super.onStart();
         // The activity is about to become visible.
         loadPrefs();
+        reset();
     }
     @Override
     protected void onResume() {
         super.onResume();
         // The activity has become visible (it is now "resumed").
         loadPrefs();
+        reset();
     }
     @Override
     protected void onPause() {
