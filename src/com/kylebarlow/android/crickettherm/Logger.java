@@ -22,6 +22,9 @@ public class Logger extends Activity {
 	private Bundle mExtras;
 	private double mCricketTemp = 0.0;
 	Cricket mCricket;
+	WeatherGetter mWeatherGetter = new WeatherGetter();
+	
+	// Hard coded constants
 	
     /** Called when the activity is first created. */
     @Override
@@ -30,6 +33,7 @@ public class Logger extends Activity {
         setContentView(R.layout.logger);
         
         mCricket=new Cricket();
+        
         loadPrefs();
         loadExtras();
         setText();
@@ -50,21 +54,27 @@ public class Logger extends Activity {
     }
     
     private void setText(){
+    	// TODO change weather getter fetching to be asynchronous
         int stringid;
-        double temp;
+        double cricketTemp;
+        double realTemp;
         if (cTemp){
 			stringid=R.string.degc;
-			temp=mCricketTemp;
+			cricketTemp=mCricketTemp;
+			realTemp=mWeatherGetter.getCTemperature();
 		}
 		else {
 			stringid=R.string.degf;
-			temp=mCricket.convertCToF(mCricketTemp);
+			cricketTemp=mCricket.convertCToF(mCricketTemp);
+			realTemp=mCricket.convertCToF(mWeatherGetter.getCTemperature());
 		}
-        TextView cricketTemp = (TextView) findViewById(R.id.logger_temperaturereading);
+        TextView cricketTempText = (TextView) findViewById(R.id.logger_temperaturereading);
         TextView manReportDeg = (TextView) findViewById(R.id.logger_manreportdeg);
+        TextView weatherTemp = (TextView) findViewById(R.id.logger_weathertemp);
         
-		cricketTemp.setText(String.format("%d "+getText(stringid),Math.round(temp)));
+		cricketTempText.setText(String.format("%d "+getText(stringid),Math.round(cricketTemp)));
 		manReportDeg.setText(getText(stringid));
+		weatherTemp.setText(String.format("%d "+getText(stringid),Math.round(realTemp)));
     }
     
     private void loadPrefs(){
@@ -124,5 +134,4 @@ public class Logger extends Activity {
         super.onDestroy();
         // The activity is about to be destroyed.
     }
-	
 }

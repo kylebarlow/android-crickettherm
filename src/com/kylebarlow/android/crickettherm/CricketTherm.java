@@ -30,6 +30,9 @@ public class CricketTherm extends Activity {
 	// TODO reference http://entnemdept.ufl.edu/walker/buzz/585a.htm
 	// TODO http://www.openclipart.org/
 	// TODO add EULA and copyright info
+	// TODO Add help explaining what information is saved to database
+	
+	// TODO add weather fetching
 	// TODO add data saving feature in sqllite database
 	// TODO sync data with master database
 	
@@ -185,6 +188,8 @@ public class CricketTherm extends Activity {
         editor.putBoolean("shareData", optIn);
         mFirstLaunch=false;
         editor.putBoolean("firstLaunch", false);
+        editor.putBoolean("cTemp", false);
+        editor.putLong("lastWeatherUpdate", 0);
 
         // Commit the edits!
         editor.commit();
