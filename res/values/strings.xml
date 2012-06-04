@@ -23,13 +23,11 @@
     <string name="notavailable">Not available</string>
     <string name="loggertitle">Data logger</string>
     <string name="logger">Logger</string>
+    <string name="viewer">Data Viewer</string>
     <string name="logger_crickettemp">Cricket estimated temperature:</string>
-    <string name="logger_weathertemp">Temperature from weather service:</string>
-    <string name="logger_date">Date</string>
-    <string name="logger_time">Time</string>
-    <string name="logger_latitude">Latitude</string>
-    <string name="logger_longitude">Longitude</string>
-    <string name="logger_manualtemp">Manually reported temperature:</string>
+    <string name="logger_logit">Log Data</string>
+    <string name="logger_weathertemp">Real temperature (from weather service):</string>
+    <string name="logger_manreport">Manually reported temperature (optional):</string>
     <string name="delaytoolong">Interval between chirps too long! Resetting&#8230;</string>
 	<string name="tempnotready">Logging can only be performed when enough chirps have been recorded to produce an estimated temperature</string>
 </resources>

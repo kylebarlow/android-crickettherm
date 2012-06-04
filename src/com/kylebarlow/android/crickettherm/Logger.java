@@ -42,7 +42,6 @@ public class Logger extends Activity {
         mShareData = settings.getBoolean("shareData", false);
     }
     
-    
     @Override
     protected void onStart() {
         super.onStart();

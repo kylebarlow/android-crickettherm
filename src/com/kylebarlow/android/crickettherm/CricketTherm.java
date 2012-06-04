@@ -135,13 +135,13 @@ public class CricketTherm extends Activity {
         mLocationListener = new MyLocationListener();
 
         // Register the listener with the Location Manager to receive location updates
-        /* // Production code using NETWORK_PROVIDER
+        // Production code using NETWORK_PROVIDER
         if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) { 
         	mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,MINMSECSLOCUPDATE, MINMETERSLOCUPDATE, mLocationListener);
-        }*/
+        }
         
         // Testing code using GPS_PROVIDER
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,MINMSECSLOCUPDATE, MINMETERSLOCUPDATE, mLocationListener);
+        //mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,MINMSECSLOCUPDATE, MINMETERSLOCUPDATE, mLocationListener);
         
         // Wunderground key settings
         // http://www.wunderground.com/weather/api/d/8edf4c3cd56d3b83/edit.html

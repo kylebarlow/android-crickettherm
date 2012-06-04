@@ -75,16 +75,78 @@
         	android:layout_height="2dip"
         	android:background="@color/green"
         	android:layout_below="@+id/logger_weathertemp" />
+    	
+    	<TextView  
+			android:id="@+id/logger_manreporttitle"
+    		android:layout_width="fill_parent" 
+    		android:layout_height="wrap_content" 
+    		android:text="@string/logger_manreport"
+    		android:textSize="20sp"
+    		android:layout_below="@+id/logger_bar2"
+    		android:layout_marginLeft="10dp"
+    		android:textStyle="bold"
+    		/>
+		
+		<EditText
+		    android:id="@+id/logger_manreport"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:layout_below="@+id/logger_manreporttitle"
+		    android:ems="5"
+		    android:inputType="numberSigned"
+		    android:textSize="20sp" />
+		
+		<TextView
+		    android:id="@+id/logger_manreportdeg"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignBaseline="@+id/logger_manreport"
+		    android:layout_toRightOf="@+id/logger_manreport"
+		    android:text="@string/degc"
+		    android:textSize="25sp"
+		    android:textStyle="bold" />
 
-   
-        
+    	<View
+        	android:id="@+id/logger_bar3"
+        	android:layout_width="fill_parent"
+        	android:layout_height="2dip"
+        	android:background="@color/green"
+        	android:layout_below="@+id/logger_manreport" />
+    	
+    	<Button
+		    android:id="@+id/logger_logit"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+			android:layout_below="@+id/logger_bar3"
+		    android:text="@string/logger_logit"
+		    android:textSize="20sp"
+		    android:textStyle="bold" />
+		
+
+    	<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/logger_logit"
+    >
+
 		<Button
-            android:id="@+id/logger_exitbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/logger_bar2"
-            android:text="@string/exit" />
+		    android:id="@+id/logger_exitbutton"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:text="@string/exit" />
+		
+		<Button
+		    android:id="@+id/logger_viewerbutton"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:text="@string/viewer" />
+
+</LinearLayout>
+    	
+		
 		
     </RelativeLayout>
