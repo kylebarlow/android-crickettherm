@@ -58,7 +58,12 @@ public class Cricket{
 	
 	public double getFTemperature(){
 		// returns temperature in fahrenheit
-		return (getTemperature()*1.8)+32.0;
+		return convertCToF(getTemperature());
+	}
+	
+	public double convertCToF(double cTempToConvert){
+		// converts given temperature in celsius to fahrenheit
+		return (cTempToConvert*1.8)+32.0;
 	}
 	public boolean isTemperatureReady(){
 		// If temperature is already ready, returns true. If not, checks to see if readiness conditions
