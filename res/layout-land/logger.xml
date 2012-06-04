@@ -114,21 +114,23 @@
         	android:background="@color/green"
         	android:layout_below="@+id/logger_manreport" />
     	
-    	<Button
-		    android:id="@+id/logger_logit"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-			android:layout_below="@+id/logger_bar3"
-		    android:text="@string/logger_logit"
-		    android:textStyle="bold" />
+
 		
 
     	<LinearLayout
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/logger_logit"
+    android:layout_below="@+id/logger_bar3"
     >
+    	
+    	<Button
+		    android:id="@+id/logger_logit"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:text="@string/logger_logit"
+		    android:textStyle="bold" />
 
 		<Button
 		    android:id="@+id/logger_exitbutton"
