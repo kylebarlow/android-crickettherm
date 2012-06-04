@@ -13,14 +13,78 @@
             android:layout_marginLeft="10dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/darkgreen" />
+        
+        <View
+        	android:id="@+id/logger_bar0"
+        	android:layout_width="fill_parent"
+        	android:layout_height="2dip"
+        	android:background="@color/green"
+        	android:layout_below="@+id/logger_title" />
 
+    	<TextView
+    	    android:id="@+id/logger_crickettemp"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content"
+    	    android:layout_below="@+id/logger_bar0"
+    	    android:layout_marginLeft="10dp"
+    	    android:text="@string/logger_crickettemp"
+    	    android:textSize="20sp"
+    	    android:textStyle="bold" />
+		
+		<TextView
+		    android:id="@+id/logger_temperaturereading"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="10dp"
+		    android:layout_below="@+id/logger_crickettemp"
+		    android:text="@string/not_applicable"
+		    android:textSize="20sp" />
+
+    	<View
+        	android:id="@+id/logger_bar1"
+        	android:layout_width="fill_parent"
+        	android:layout_height="2dip"
+        	android:background="@color/green"
+        	android:layout_below="@+id/logger_temperaturereading" />
+    	
+    	<TextView  
+			android:id="@+id/logger_weathertemptitle"
+    		android:layout_width="fill_parent" 
+    		android:layout_height="wrap_content" 
+    		android:text="@string/logger_weathertemp"
+    		android:textSize="20sp"
+    		android:layout_below="@+id/logger_bar1"
+    		android:layout_marginLeft="10dp"
+    		android:textStyle="bold"
+    		/>
+		
+		<TextView  
+			android:id="@+id/logger_weathertemp"
+    		android:layout_width="fill_parent" 
+    		android:layout_height="wrap_content" 
+    		android:text="@string/notavailable"
+    		android:textSize="20sp"
+    		android:layout_marginLeft="10dp"
+    		android:layout_alignParentLeft="true"
+    		android:layout_below="@+id/logger_weathertemptitle"
+    		/>
+
+    	<View
+        	android:id="@+id/logger_bar2"
+        	android:layout_width="fill_parent"
+        	android:layout_height="2dip"
+        	android:background="@color/green"
+        	android:layout_below="@+id/logger_weathertemp" />
+
+   
+        
 		<Button
             android:id="@+id/logger_exitbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/logger_title"
+            android:layout_below="@+id/logger_bar2"
             android:text="@string/exit" />
 		
     </RelativeLayout>

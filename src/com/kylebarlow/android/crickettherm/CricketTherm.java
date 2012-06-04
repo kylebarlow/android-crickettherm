@@ -103,8 +103,17 @@ public class CricketTherm extends Activity {
         final Button loggerbutton = (Button) findViewById(R.id.loggerbutton);
         loggerbutton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-        		Intent i = new Intent(CricketTherm.this,Logger.class);
-        		startActivity(i);
+        		if (mCricket.isTemperatureReady()){
+        			Intent i = new Intent(CricketTherm.this,Logger.class);
+        			i.putExtra("LOCATION", mCurrentLocation);
+        			i.putExtra("CRICKETTEMP", mCricket.getCTemperature());
+        			i.putExtra("NUMCHIRPS", mCricket.numberOfChirps());
+        			i.putExtra("NUMSECS", mCricket.elapsedSeconds());
+        			startActivity(i);
+        		}
+        		else {
+        			makeLongToast((String) getText(R.string.tempnotready));
+        		}
         	}
         });
     
@@ -206,6 +215,10 @@ public class CricketTherm extends Activity {
     
     private void makeShortToast(String message){
     	Toast.makeText(this, message,Toast.LENGTH_SHORT).show();
+    }
+    
+    private void makeLongToast(String message){
+    	Toast.makeText(this, message,Toast.LENGTH_LONG).show();
     }
     
     @Override

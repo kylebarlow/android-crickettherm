@@ -20,7 +20,16 @@
     <string name="firstlaunchmessage">Would you like to enable sharing of logged cricket chirp data with the developer of this application? No personally identifiable information will be shared. The data will be used for scientific research and to improve the accuracy of the cricket chirps to temperature conversion. This option can be changed later in the options menu.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="notavailable">Not available</string>
     <string name="loggertitle">Data logger</string>
     <string name="logger">Logger</string>
+    <string name="logger_crickettemp">Cricket estimated temperature:</string>
+    <string name="logger_weathertemp">Temperature from weather service:</string>
+    <string name="logger_date">Date</string>
+    <string name="logger_time">Time</string>
+    <string name="logger_latitude">Latitude</string>
+    <string name="logger_longitude">Longitude</string>
+    <string name="logger_manualtemp">Manually reported temperature:</string>
     <string name="delaytoolong">Interval between chirps too long! Resetting&#8230;</string>
+	<string name="tempnotready">Logging can only be performed when enough chirps have been recorded to produce an estimated temperature</string>
 </resources>

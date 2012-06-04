@@ -14,7 +14,8 @@ import android.widget.Button;
 public class Logger extends Activity {
 	private boolean cTemp=false;
 	private boolean mShareData=false;
-
+	private Bundle mExtras;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,8 @@ public class Logger extends Activity {
         setContentView(R.layout.logger);
         
         loadPrefs();
+        
+        mExtras = this.getIntent().getExtras();
         
         final Button exitbutton = (Button) findViewById(R.id.logger_exitbutton);
         exitbutton.setOnClickListener(new View.OnClickListener() {
