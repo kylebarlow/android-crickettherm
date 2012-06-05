@@ -42,6 +42,8 @@ public class WeatherGetter {
 	}
 	
 	protected WeatherData getCurrentWeather(Location currentLocation){
+		if (currentLocation==null)
+			return new WeatherData();
 		Log.i("WeatherGetter", "Launching");
 		if ((System.currentTimeMillis()-mLastWeatherUpdate)<TIMEBETWEENUPDATES){
 			// Too soon to last update

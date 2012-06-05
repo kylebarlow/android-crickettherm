@@ -11,7 +11,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @author Kyle Barlow
@@ -29,6 +31,7 @@ public class Logger extends Activity {
 	Cricket mCricket;
 	WeatherData mWD;
 	private WeatherGetter mWeatherGetter;
+	private DataDBAdapter mDbHelper;
 	
 	// Hard coded constants
 	private static final String APITOUSE = "google";
@@ -39,11 +42,15 @@ public class Logger extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logger);
         
+        mDbHelper = new DataDBAdapter(this);
+        mDbHelper.open();
+        
         //mWeatherGetter = (WeatherGetter) getLastNonConfigurationInstance();
         //if (mWeatherGetter == null) {
         //    mWeatherGetter = new WeatherGetter(APITOUSE);
         //}
         mWeatherGetter = new WeatherGetter(APITOUSE);
+        mWD = new WeatherData();
         
         mCricket=new Cricket();
         mStringId=0;
@@ -58,6 +65,44 @@ public class Logger extends Activity {
         	}
         });
         
+        final Button logItButton = (Button) findViewById(R.id.logger_logit);
+        logItButton.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+        		saveLogData();
+        	}
+        });
+        
+    }
+    
+    private void saveLogData(){
+    	Boolean locationReady=true;
+    	try {
+    		mCurrentLocation.getLatitude();
+    	}
+    	catch (Exception e){
+    		locationReady=false;
+    	}
+    	final EditText manualTemp = (EditText) findViewById(R.id.logger_manreport);
+    	if (mWD.mDataReady&&(locationReady)){
+    		mDbHelper.createLogEntry(mWD.getCTemperature(), mWD.mCondition, 
+    				mWD.mHumidity, mWD.mWindCondition, mCricketTemp,
+    				mNumChirps, mNumSecs, mCurrentLocation.getLatitude(), 
+    				mCurrentLocation.getLongitude(),
+    				new Double (mCurrentLocation.getAccuracy()), APITOUSE,
+    				manualTemp.getText().toString());
+    	}
+    	else if ((mWD.mDataReady==false)&&locationReady){
+    		mDbHelper.createLogEntryNoWeather(mCricketTemp, mNumChirps, mNumSecs,
+    				mCurrentLocation.getLatitude(), 
+    				mCurrentLocation.getLongitude(),
+    				new Double (mCurrentLocation.getAccuracy()),
+    				manualTemp.getText().toString());
+    	}
+    	else {
+    		mDbHelper.createLogEntryNoWeatherOrLocation(mCricketTemp,
+    				mNumChirps, mNumSecs, manualTemp.getText().toString());
+    	}
+    	Toast.makeText(this, "Data logged",Toast.LENGTH_SHORT).show();
     }
     
     @Override
