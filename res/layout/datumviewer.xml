@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:stretchColumns="2">
+
+    <TableRow>
+        <TextView
+            android:id="@+id/datum_crickettemp"
+            android:layout_column="1"
+            android:text="@string/datum_crickettemp"
+            android:padding="3dip"
+            android:gravity="right" />
+        <TextView
+            android:id="@+id/datum_crickettempd"
+            android:layout_column="2"
+            android:text="@string/not_applicable"
+            android:gravity="left"
+            android:padding="3dip" />
+    </TableRow>
+    
+    <View
+        	android:id="@+id/datum_bar0"
+        	android:layout_width="fill_parent"
+        	android:layout_height="2dip"
+        	android:background="@color/green"/>
+
+    <TableRow>
+        <TextView
+            android:id="@+id/datum_weathertemp"
+            android:layout_column="1"
+            android:text="@string/datum_weathertemp"
+            android:padding="3dip"
+            android:gravity="right" />
+        <TextView
+            android:id="@+id/datum_weathertempd"
+            android:layout_column="2"
+            android:text="@string/not_applicable"
+            android:gravity="left"
+            android:padding="3dip" />
+    </TableRow>
+    
+    <View
+        	android:id="@+id/datum_bar1"
+        	android:layout_width="fill_parent"
+        	android:layout_height="2dip"
+        	android:background="@color/green"/>
+    
+    <TableRow>
+        <TextView
+            android:id="@+id/datum_condition"
+            android:layout_column="1"
+            android:text="@string/datum_condition"
+            android:padding="3dip"
+            android:gravity="right" />
+        <TextView
+            android:id="@+id/datum_conditiond"
+            android:layout_column="2"
+            android:text="@string/not_applicable"
+            android:gravity="left"
+            android:padding="3dip" />
+    </TableRow>
+    
+    <View
+        	android:id="@+id/datum_bar2"
+        	android:layout_width="fill_parent"
+        	android:layout_height="2dip"
+        	android:background="@color/green"/>
+    
+    <TableRow>
+        <TextView
+            android:id="@+id/datum_humidity"
+            android:layout_column="1"
+            android:text="@string/datum_humidity"
+            android:padding="3dip"
+            android:gravity="right" />
+        <TextView
+            android:id="@+id/datum_humidityd"
+            android:layout_column="2"
+            android:text="@string/not_applicable"
+            android:gravity="left"
+            android:padding="3dip" />
+    </TableRow>
+    
+    <View
+        	android:id="@+id/datum_bar3"
+        	android:layout_width="fill_parent"
+        	android:layout_height="2dip"
+        	android:background="@color/green"/>
+    
+    <TableRow>
+        <TextView
+            android:id="@+id/datum_windcondition"
+            android:layout_column="1"
+            android:text="@string/datum_windcondition"
+            android:padding="3dip"
+            android:gravity="right" />
+        <TextView
+            android:id="@+id/datum_windconditiond"
+            android:layout_column="2"
+            android:text="@string/not_applicable"
+            android:gravity="left"
+            android:padding="3dip" />
+    </TableRow>
+    
+    <View
+        	android:id="@+id/datum_bar4"
+        	android:layout_width="fill_parent"
+        	android:layout_height="2dip"
+        	android:background="@color/green"/>
+    
+    <TableRow>
+        <TextView
+            android:id="@+id/datum_latitude"
+            android:layout_column="1"
+            android:text="@string/datum_latitude"
+            android:padding="3dip"
+            android:gravity="right" />
+        <TextView
+            android:id="@+id/datum_latituded"
+            android:layout_column="2"
+            android:text="@string/not_applicable"
+            android:gravity="left"
+            android:padding="3dip" />
+    </TableRow>
+    
+    <View
+        	android:id="@+id/datum_bar5"
+        	android:layout_width="fill_parent"
+        	android:layout_height="2dip"
+        	android:background="@color/green"/>
+    
+    <TableRow>
+        <TextView
+            android:id="@+id/datum_longitude"
+            android:layout_column="1"
+            android:text="@string/datum_longitude"
+            android:padding="3dip"
+            android:gravity="right" />
+        <TextView
+            android:id="@+id/datum_longituded"
+            android:layout_column="2"
+            android:text="@string/not_applicable"
+            android:gravity="left"
+            android:padding="3dip" />
+    </TableRow>
+    
+    <View
+        	android:id="@+id/datum_bar6"
+        	android:layout_width="fill_parent"
+        	android:layout_height="2dip"
+        	android:background="@color/green"/>
+    
+    <TableRow>
+        <TextView
+            android:id="@+id/datum_timestamp"
+            android:layout_column="1"
+            android:text="@string/datum_timestamp"
+            android:padding="3dip"
+            android:gravity="right" />
+        <TextView
+            android:id="@+id/datum_timestampd"
+            android:layout_column="2"
+            android:text="@string/not_applicable"
+            android:gravity="left"
+            android:padding="3dip" />
+    </TableRow>
+    
+    
+</TableLayout>

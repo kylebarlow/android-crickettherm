@@ -14,7 +14,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * Simple notes database access helper class. Defines the basic CRUD operations
+ * Simple logger database access helper class. From the android tutorial. 
+ * Defines the basic CRUD operations
  * for the notepad example, and gives the ability to list all notes as well as
  * retrieve or modify a specific note.
  * 
@@ -267,7 +268,7 @@ public class DataDBAdapter {
      * @param rowId id of note to delete
      * @return true if deleted, false otherwise
      */
-    public boolean deleteNote(long rowId) {
+    public boolean deleteLog(long rowId) {
 
         return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
     }

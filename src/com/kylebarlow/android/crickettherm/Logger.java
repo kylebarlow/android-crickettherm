@@ -72,6 +72,14 @@ public class Logger extends Activity {
         	}
         });
         
+        final Button viewerButton = (Button) findViewById(R.id.logger_viewerbutton);
+        viewerButton.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+        		Intent i = new Intent(Logger.this,DataViewer.class);
+    			startActivity(i);
+        	}
+        });
+        
     }
     
     private void saveLogData(){
@@ -102,7 +110,7 @@ public class Logger extends Activity {
     		mDbHelper.createLogEntryNoWeatherOrLocation(mCricketTemp,
     				mNumChirps, mNumSecs, manualTemp.getText().toString());
     	}
-    	Toast.makeText(this, "Data logged",Toast.LENGTH_SHORT).show();
+    	Toast.makeText(this, getText(R.string.datalogged),Toast.LENGTH_SHORT).show();
     }
     
     @Override
@@ -179,6 +187,10 @@ public class Logger extends Activity {
             case R.id.options:
             	Intent i = new Intent(this,OptionsMenu.class);
         		startActivity(i);
+                return true;
+            case R.id.dataviewer:
+            	Intent i2 = new Intent(this,DataViewer.class);
+        		startActivity(i2);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -10,6 +10,7 @@ public class WeatherData {
 	
 	protected Boolean mDataReady;
 	private Double mCTemp;
+	@SuppressWarnings("unused")
 	private Double mFTemp;
 	protected String mCondition;
 	protected String mHumidity;

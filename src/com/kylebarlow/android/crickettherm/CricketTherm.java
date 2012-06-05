@@ -241,6 +241,10 @@ public class CricketTherm extends Activity {
             	Intent i = new Intent(this,OptionsMenu.class);
         		startActivity(i);
                 return true;
+            case R.id.dataviewer:
+            	Intent i2 = new Intent(this,DataViewer.class);
+        		startActivity(i2);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
