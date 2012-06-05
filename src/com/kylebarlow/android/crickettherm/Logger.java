@@ -3,6 +3,7 @@ package com.kylebarlow.android.crickettherm;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,10 +22,12 @@ public class Logger extends Activity {
 	private boolean cTemp=false;
 	private Bundle mExtras;
 	private double mCricketTemp = 0.0;
+	private int mStringId;
 	Cricket mCricket;
-	WeatherGetter mWeatherGetter = new WeatherGetter();
+	WeatherData mWD;
 	
 	// Hard coded constants
+	private static final String APITOUSE = "google";
 	
     /** Called when the activity is first created. */
     @Override
@@ -33,6 +36,7 @@ public class Logger extends Activity {
         setContentView(R.layout.logger);
         
         mCricket=new Cricket();
+        mStringId=0;
         
         loadPrefs();
         loadExtras();
@@ -55,26 +59,39 @@ public class Logger extends Activity {
     
     private void setText(){
     	// TODO change weather getter fetching to be asynchronous
-        int stringid;
         double cricketTemp;
-        double realTemp;
         if (cTemp){
-			stringid=R.string.degc;
+			mStringId=R.string.degc;
 			cricketTemp=mCricketTemp;
-			realTemp=mWeatherGetter.getCTemperature();
 		}
 		else {
-			stringid=R.string.degf;
+			mStringId=R.string.degf;
 			cricketTemp=mCricket.convertCToF(mCricketTemp);
-			realTemp=mCricket.convertCToF(mWeatherGetter.getCTemperature());
 		}
         TextView cricketTempText = (TextView) findViewById(R.id.logger_temperaturereading);
         TextView manReportDeg = (TextView) findViewById(R.id.logger_manreportdeg);
-        TextView weatherTemp = (TextView) findViewById(R.id.logger_weathertemp);
         
-		cricketTempText.setText(String.format("%d "+getText(stringid),Math.round(cricketTemp)));
-		manReportDeg.setText(getText(stringid));
-		weatherTemp.setText(String.format("%d "+getText(stringid),Math.round(realTemp)));
+		cricketTempText.setText(String.format("%d "+getText(mStringId),Math.round(cricketTemp)));
+		manReportDeg.setText(getText(mStringId));
+		
+		fetchWeather();
+    }
+    
+    private void fetchWeather(){
+    	new Weather().execute(APITOUSE);
+    }
+    
+    private void weatherFetched(WeatherData wd){
+    	mWD=wd;
+    	Double realTemp;
+    	TextView weatherTemp = (TextView) findViewById(R.id.logger_weathertemp);
+    	if (cTemp){
+			realTemp=wd.getCTemperature();
+		}
+		else {
+			realTemp=wd.getFTemperature();
+		}
+    	weatherTemp.setText(String.format("%d "+getText(mStringId),Math.round(realTemp)));
     }
     
     private void loadPrefs(){
@@ -101,6 +118,23 @@ public class Logger extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    
+    private class Weather extends AsyncTask<String, Void, WeatherData> {
+    	
+        /** The system calls this to perform work in a worker thread and
+         * delivers it the parameters given to AsyncTask.execute() */
+       protected WeatherData doInBackground(String... apiToUse) {
+    	   WeatherGetter wg = new WeatherGetter(apiToUse[0]);
+    	   return wg.getCurrentWeather();
+       }
+       
+       /** The system calls this to perform work in the UI thread and delivers
+         * the result from doInBackground() */
+       protected void onPostExecute(WeatherData wd) {
+           weatherFetched(wd);
+       }
+
     }
     
     @Override
