@@ -28,6 +28,7 @@ public class Logger extends Activity {
 	private int mStringId;
 	Cricket mCricket;
 	WeatherData mWD;
+	private WeatherGetter mWeatherGetter;
 	
 	// Hard coded constants
 	private static final String APITOUSE = "google";
@@ -37,6 +38,12 @@ public class Logger extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logger);
+        
+        //mWeatherGetter = (WeatherGetter) getLastNonConfigurationInstance();
+        //if (mWeatherGetter == null) {
+        //    mWeatherGetter = new WeatherGetter(APITOUSE);
+        //}
+        mWeatherGetter = new WeatherGetter(APITOUSE);
         
         mCricket=new Cricket();
         mStringId=0;
@@ -51,6 +58,11 @@ public class Logger extends Activity {
         	}
         });
         
+    }
+    
+    @Override
+    public Object onRetainNonConfigurationInstance() {
+        return mWeatherGetter;
     }
     
     private void loadExtras(){
@@ -83,7 +95,7 @@ public class Logger extends Activity {
     }
     
     private void fetchWeather(){
-    	new Weather(mCurrentLocation).execute(APITOUSE);
+    	new Weather(mCurrentLocation,mWeatherGetter).execute(APITOUSE);
     }
     
     private void weatherFetched(WeatherData wd){
@@ -131,16 +143,17 @@ public class Logger extends Activity {
     private class Weather extends AsyncTask<String, Void, WeatherData> {
     	
     	Location mCurrentLocation;
+    	WeatherGetter mWeatherGetter;
     	
-    	Weather(Location currentLocation){
+    	Weather(Location currentLocation, WeatherGetter wg){
     		mCurrentLocation=currentLocation;
+    		mWeatherGetter = wg;
     	}
     	
         /** The system calls this to perform work in a worker thread and
          * delivers it the parameters given to AsyncTask.execute() */
-       protected WeatherData doInBackground(String... apiToUse) {
-    	   WeatherGetter wg = new WeatherGetter(apiToUse[0]);
-    	   return wg.getCurrentWeather(mCurrentLocation);
+       protected WeatherData doInBackground(String... params) {
+    	   return mWeatherGetter.getCurrentWeather(mCurrentLocation);
        }
        
        /** The system calls this to perform work in the UI thread and delivers
