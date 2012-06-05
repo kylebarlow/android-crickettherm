@@ -3,6 +3,7 @@ package com.kylebarlow.android.crickettherm;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.kylebarlow.android.crickettherm.Cricket;
 
 /**
  * @author Kyle Barlow
@@ -22,6 +22,9 @@ public class Logger extends Activity {
 	private boolean cTemp=false;
 	private Bundle mExtras;
 	private double mCricketTemp = 0.0;
+	private int mNumChirps = 0;
+	private int mNumSecs = 0;
+	private Location mCurrentLocation;
 	private int mStringId;
 	Cricket mCricket;
 	WeatherData mWD;
@@ -40,7 +43,6 @@ public class Logger extends Activity {
         
         loadPrefs();
         loadExtras();
-        setText();
 		
         final Button exitbutton = (Button) findViewById(R.id.logger_exitbutton);
         exitbutton.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +57,9 @@ public class Logger extends Activity {
         mExtras = this.getIntent().getExtras();
         
         mCricketTemp = mExtras.getDouble("CRICKETTEMP", 0.0);
+    	mNumChirps = mExtras.getInt("NUMCHIRPS", 0);
+    	mNumSecs = mExtras.getInt("NUMCHIRPS",0);
+    	mCurrentLocation = (Location) mExtras.get("LOCATION");
     }
     
     private void setText(){
@@ -78,11 +83,14 @@ public class Logger extends Activity {
     }
     
     private void fetchWeather(){
-    	new Weather().execute(APITOUSE);
+    	new Weather(mCurrentLocation).execute(APITOUSE);
     }
     
     private void weatherFetched(WeatherData wd){
     	mWD=wd;
+    	if (wd.mDataReady==false){
+    		return;
+    	}
     	Double realTemp;
     	TextView weatherTemp = (TextView) findViewById(R.id.logger_weathertemp);
     	if (cTemp){
@@ -122,11 +130,17 @@ public class Logger extends Activity {
     
     private class Weather extends AsyncTask<String, Void, WeatherData> {
     	
+    	Location mCurrentLocation;
+    	
+    	Weather(Location currentLocation){
+    		mCurrentLocation=currentLocation;
+    	}
+    	
         /** The system calls this to perform work in a worker thread and
          * delivers it the parameters given to AsyncTask.execute() */
        protected WeatherData doInBackground(String... apiToUse) {
     	   WeatherGetter wg = new WeatherGetter(apiToUse[0]);
-    	   return wg.getCurrentWeather();
+    	   return wg.getCurrentWeather(mCurrentLocation);
        }
        
        /** The system calls this to perform work in the UI thread and delivers
@@ -143,7 +157,6 @@ public class Logger extends Activity {
         // The activity is about to become visible.
         loadPrefs();
         loadExtras();
-        setText();
     }
     @Override
     protected void onResume() {

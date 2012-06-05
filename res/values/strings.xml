@@ -26,7 +26,7 @@
     <string name="viewer">Data Viewer</string>
     <string name="logger_crickettemp">Cricket estimated temperature:</string>
     <string name="logger_logit">Log Data</string>
-    <string name="logger_weathertemp">Real temperature (from weather service):</string>
+    <string name="logger_weathertemp">Real temperature (from Google weather):</string>
     <string name="logger_manreport">Manually reported temperature (optional):</string>
     <string name="delaytoolong">Interval between chirps too long! Resetting&#8230;</string>
 	<string name="tempnotready">Logging can only be performed when enough chirps have been recorded to produce an estimated temperature</string>
