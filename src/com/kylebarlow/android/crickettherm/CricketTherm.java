@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,6 +44,7 @@ public class CricketTherm extends Activity {
 	// Preferences file variables
 	private boolean cTemp=false;
 	private boolean mFirstLaunch=true;
+	private boolean mOptIn=false;
 	
 	// Hard coded constants
 	protected static final String PREFS_NAME = "MyPrefsFile";
@@ -185,6 +187,7 @@ public class CricketTherm extends Activity {
     private void firstLaunch(Boolean optIn) {
     	SharedPreferences settings = getSharedPreferences(CricketTherm.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
+        mOptIn=optIn;
         editor.putBoolean("shareData", optIn);
         mFirstLaunch=false;
         editor.putBoolean("firstLaunch", false);
@@ -295,5 +298,25 @@ public class CricketTherm extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         // The activity is about to be destroyed.
+    }
+    
+    private class ServerSync extends AsyncTask<String, Void, Integer> {
+    	
+    	ServerSync(){
+    		
+    	}
+    	
+        /** The system calls this to perform work in a worker thread and
+         * delivers it the parameters given to AsyncTask.execute() */
+       protected Integer doInBackground(String... params) {
+    	   return new Integer(5);
+       }
+       
+       /** The system calls this to perform work in the UI thread and delivers
+         * the result from doInBackground() */
+       protected void onPostExecute(WeatherData wd) {
+           weatherFetched(wd);
+       }
+
     }
 }

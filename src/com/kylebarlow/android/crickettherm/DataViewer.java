@@ -23,6 +23,8 @@ import android.widget.TextView;
  * 
  */
 public class DataViewer extends ListActivity {
+	//TODO Fix deleting items bug where display is incorrect
+	// TODO Add manual temp display, numchirps, and numsecs
 	
 	private DataDBAdapter mDbHelper;
 	private static final int DELETE_ID = Menu.FIRST;
