@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,11 +31,8 @@ public class CricketTherm extends Activity {
 	// TODO http://www.openclipart.org/
 	// TODO add EULA and copyright info
 	// TODO Add help explaining what information is saved to database
+	// TODO Add version specifier on options screen
 	
-	// TODO Pass seconds in float
-	// TODO add weather fetching
-	// TODO add data saving feature in sqllite database
-	// TODO sync data with master database
 	
 	// Class todos
 	// TODO break out view changing from button onclick listeners, make general update values class

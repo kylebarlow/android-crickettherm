@@ -13,7 +13,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import android.location.Location;
-import android.util.Log;
 
 
 /**
@@ -26,35 +25,33 @@ public class WeatherGetter {
 	private String mApiToUse;
 	private Double mLatitude;
 	private Double mLongitude;
-	private WeatherData mWeatherData = new WeatherData();
-	private long mLastWeatherUpdate=0;
+	//private WeatherData mWeatherData = new WeatherData();
+	//private long mLastWeatherUpdate=0;
 	
 	private static final String GOOGLEBASEURL="http://www.google.com/ig/api?weather=,,,";
-	private static final long TIMEBETWEENUPDATES=300000; // Time between fetches in ms
+	//private static final long TIMEBETWEENUPDATES=300000; // Time between fetches in ms
 	
 	WeatherGetter(String apiToUse){
 		mApiToUse=apiToUse;
 	}
 	
+	/*
 	WeatherGetter(String apiToUse, long lastWeatherUpdate){
 		mApiToUse=apiToUse;
 		mLastWeatherUpdate = lastWeatherUpdate;
-	}
+	}*/
 	
 	protected WeatherData getCurrentWeather(Location currentLocation){
+		
+		//Log.i("WeatherGetter", "Launching");
+		
+		//mLastWeatherUpdate=System.currentTimeMillis();
 		if (currentLocation==null)
 			return new WeatherData();
-		Log.i("WeatherGetter", "Launching");
-		if ((System.currentTimeMillis()-mLastWeatherUpdate)<TIMEBETWEENUPDATES){
-			// Too soon to last update
-			Log.i("WeatherGetter", "Returning cached weather data");
-			return mWeatherData;
-		}
-		
 		mLatitude=currentLocation.getLatitude();
 		mLongitude=currentLocation.getLongitude();
 		if (mApiToUse.equalsIgnoreCase("google")){
-			Log.i("WeatherGetter", "Getting google weather");
+			//Log.i("WeatherGetter", "Getting google weather");
 			return getGoogleWeather();
 		}
 		return new WeatherData();
@@ -86,16 +83,18 @@ public class WeatherGetter {
 		    document = builder.parse(new URL(url).openStream());
 		} catch (Exception e) {
 			e.printStackTrace();
+			//Log.e("WeatherGetter", latitude);
+			//Log.e("WeatherGetter", longitude);
 			return new WeatherData();
 		}
 		
 		Element rootElement = document.getDocumentElement();
 		Element weatherElement = getNode(rootElement,"weather");
 		if (weatherElement==null) {
-			Log.i("XMLParse", "no match in: "+rootElement.getNodeName());
+			//Log.i("XMLParse", "no match in: "+rootElement.getNodeName());
 			return new WeatherData();
 		}
-		Log.i("XMLParse", "Found node: "+weatherElement.getNodeName());
+		//Log.i("XMLParse", "Found node: "+weatherElement.getNodeName());
 		
 		Element currentConditionsElement = getNode(weatherElement,"current_conditions");
 		if (currentConditionsElement==null) {
@@ -119,7 +118,7 @@ public class WeatherGetter {
 			  if(node.getNodeName().equals("condition")){
 				  Element child = (Element) node;
 				  condition = child.getAttribute("data");
-				  Log.i("XMLParse", "condition = "+condition);
+				  //Log.i("XMLParse", "condition = "+condition);
 			  }
 			  
 			  if(node.getNodeName().equals("temp_f")){
@@ -163,7 +162,7 @@ public class WeatherGetter {
 			temp_c=new Double(temp_c_str);
 		}
 		
-		mLastWeatherUpdate = System.currentTimeMillis();
+		//mLastWeatherUpdate = System.currentTimeMillis();
 		return new WeatherData(temp_c, temp_f, condition, humidity, wind_condition);
 	}
 	

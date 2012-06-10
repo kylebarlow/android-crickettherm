@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,6 +29,7 @@ public class Logger extends Activity {
 	private double mNumSecs = 0;
 	private Location mCurrentLocation;
 	private int mStringId;
+	private long mLastWeatherUpdate=0;
 	Cricket mCricket;
 	WeatherData mWD;
 	private WeatherGetter mWeatherGetter;
@@ -35,27 +37,23 @@ public class Logger extends Activity {
 	
 	// Hard coded constants
 	private static final String APITOUSE = "google";
+	private static final long TIMEBETWEENUPDATES=300000; // Time between fetches in ms
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logger);
+        loadPrefs();
         
         mDbHelper = new DataDBAdapter(this);
-        mDbHelper.open();
         
-        //mWeatherGetter = (WeatherGetter) getLastNonConfigurationInstance();
-        //if (mWeatherGetter == null) {
-        //    mWeatherGetter = new WeatherGetter(APITOUSE);
-        //}
         mWeatherGetter = new WeatherGetter(APITOUSE);
         mWD = new WeatherData();
-        
+        loadWeather();
         mCricket=new Cricket();
         mStringId=0;
         
-        loadPrefs();
         loadExtras();
 		
         final Button exitbutton = (Button) findViewById(R.id.logger_exitbutton);
@@ -91,25 +89,38 @@ public class Logger extends Activity {
     		locationReady=false;
     	}
     	final EditText manualTemp = (EditText) findViewById(R.id.logger_manreport);
+    	Log.i("Logger","Mantempfield: "+manualTemp.getText().toString());
+        Double manTempDouble;
+        try {
+        	manTempDouble = new Double(manualTemp.getText().toString());
+        	if (cTemp==false) {
+        		manTempDouble = (manTempDouble-32.0)*(5.0/9.0);
+        	}
+        }
+        catch (Exception e){
+        	manTempDouble=null;
+        }
+        mDbHelper.open();
     	if (mWD.mDataReady&&(locationReady)){
     		mDbHelper.createLogEntry(mWD.getCTemperature(), mWD.mCondition, 
     				mWD.mHumidity, mWD.mWindCondition, mCricketTemp,
     				mNumChirps, mNumSecs, mCurrentLocation.getLatitude(), 
     				mCurrentLocation.getLongitude(),
     				new Double (mCurrentLocation.getAccuracy()), APITOUSE,
-    				manualTemp.getText().toString());
+    				manTempDouble);
     	}
     	else if ((mWD.mDataReady==false)&&locationReady){
     		mDbHelper.createLogEntryNoWeather(mCricketTemp, mNumChirps, mNumSecs,
     				mCurrentLocation.getLatitude(), 
     				mCurrentLocation.getLongitude(),
     				new Double (mCurrentLocation.getAccuracy()),
-    				manualTemp.getText().toString());
+    				manTempDouble);
     	}
     	else {
     		mDbHelper.createLogEntryNoWeatherOrLocation(mCricketTemp,
-    				mNumChirps, mNumSecs, manualTemp.getText().toString());
+    				mNumChirps, mNumSecs, manTempDouble);
     	}
+    	mDbHelper.close();
     	Toast.makeText(this, getText(R.string.datalogged),Toast.LENGTH_SHORT).show();
     }
     
@@ -128,7 +139,6 @@ public class Logger extends Activity {
     }
     
     private void setText(){
-    	// TODO change weather getter fetching to be asynchronous
         double cricketTemp;
         if (cTemp){
 			mStringId=R.string.degc;
@@ -148,21 +158,38 @@ public class Logger extends Activity {
     }
     
     private void fetchWeather(){
-    	new Weather(mCurrentLocation,mWeatherGetter).execute(APITOUSE);
+		if ((System.currentTimeMillis()-mLastWeatherUpdate)<TIMEBETWEENUPDATES){
+			// Too soon to last update
+			Log.i("Logger", "Using cached weather data (if exists)");
+		}
+		else {
+			Log.i("Logger", "Fetching fresh weather");
+			new Weather(mCurrentLocation,mWeatherGetter).execute(APITOUSE);
+		}
+		if (mWD.mDataReady)
+    		updateWeatherText();
     }
     
     private void weatherFetched(WeatherData wd){
-    	mWD=wd;
-    	if (wd.mDataReady==false){
-    		return;
+    	if (wd.mDataReady){
+    		mWD=wd;
+    		saveWeather();
     	}
+    	else {
+    		if (mWD.mDataReady==false)
+    			return;
+    	}
+    	updateWeatherText();
+    }
+    
+    private void updateWeatherText(){
     	Double realTemp;
     	TextView weatherTemp = (TextView) findViewById(R.id.logger_weathertemp);
     	if (cTemp){
-			realTemp=wd.getCTemperature();
+			realTemp=mWD.getCTemperature();
 		}
 		else {
-			realTemp=wd.getFTemperature();
+			realTemp=mWD.getFTemperature();
 		}
     	weatherTemp.setText(String.format("%d "+getText(mStringId),Math.round(realTemp)));
     }
@@ -171,6 +198,50 @@ public class Logger extends Activity {
     	// Restore preferences
         SharedPreferences settings = getSharedPreferences(CricketTherm.PREFS_NAME, 0);
         cTemp = settings.getBoolean("cTemp", false);
+        mLastWeatherUpdate = settings.getLong("lastWeatherUpdate", 0);
+    }
+    
+    private void savePrefs(){
+    	SharedPreferences settings = getSharedPreferences(CricketTherm.PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putLong("lastWeatherUpdate", mLastWeatherUpdate);
+
+        // Commit the edits!
+        editor.commit();
+    }
+    
+    private void loadWeather(){
+    	// Restore preferences
+        SharedPreferences settings = getSharedPreferences(CricketTherm.PREFS_NAME, 0);
+        Boolean dataready = settings.getBoolean("savedDataReady", false);
+        if (dataready) {
+        	Double ctemp = new Double(settings.getFloat("savedCTemp", 0));
+        	Double ftemp = new Double(settings.getFloat("savedFTemp", 0));
+        	String condition = settings.getString("savedCondition","");
+        	String humidity = settings.getString("savedHumidity", "");
+        	String windcondition = settings.getString("savedWindCondition", "");
+        	mWD = new WeatherData(ctemp,ftemp,condition,humidity,windcondition);
+        }
+        else {
+        	return;
+        }
+    }
+    
+    private void saveWeather(){
+    	if (mWD.mDataReady==false){
+    		return;
+    	}
+    	SharedPreferences settings = getSharedPreferences(CricketTherm.PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putFloat("savedCTemp", new Float(mWD.getCTemperature()));
+        editor.putFloat("savedFTemp", new Float(mWD.getFTemperature()));
+        editor.putString("savedCondition", mWD.mCondition);
+        editor.putString("savedHumidity", mWD.mHumidity);
+        editor.putString("savedWindCondition", mWD.mWindCondition);
+        editor.putBoolean("savedDataReady", true);
+
+        // Commit the edits!
+        editor.commit();
     }
     
     @Override
@@ -216,6 +287,10 @@ public class Logger extends Activity {
        /** The system calls this to perform work in the UI thread and delivers
          * the result from doInBackground() */
        protected void onPostExecute(WeatherData wd) {
+    	   if (wd.mDataReady){
+    		   mLastWeatherUpdate=System.currentTimeMillis();
+    		   savePrefs();
+    	   }
            weatherFetched(wd);
        }
 

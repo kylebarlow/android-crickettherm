@@ -139,7 +139,7 @@ public class DataDBAdapter {
     public long createLogEntry(Double ctemp, String condition, 
 			String humidity, String windcondition, Double cricketctemp,
 			int numchirps, Double numsecs, Double latitude, Double longitude,
-			Double locationaccuracy, String weatherapi, String manualtemp) {
+			Double locationaccuracy, String weatherapi, Double manualtemp) {
     	DateFormat dateFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	String crntDate = dateFormatISO8601.format(new Date());
     	
@@ -157,15 +157,10 @@ public class DataDBAdapter {
         initialValues.put(KEY_WINDCONDITION, windcondition);
         initialValues.put(KEY_TIMESTAMP, crntDate);
         initialValues.put(KEY_SERVERID, 0);
-        Double manTempDouble=null;
-        try {
-        	manTempDouble = new Double(manualtemp);
-        }
-        catch (Exception e){
+        if (manualtemp!=null)
+        	initialValues.put(KEY_MANUALTEMP, manualtemp);
+        else
         	initialValues.putNull(KEY_MANUALTEMP);
-        }
-        if (manTempDouble!=null)
-        	initialValues.put(KEY_MANUALTEMP, new Double(manualtemp));
         
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
@@ -198,7 +193,7 @@ public class DataDBAdapter {
     
     public long createLogEntryNoWeather(Double cricketctemp,
 			int numchirps, Double numsecs, Double latitude, Double longitude,
-			Double locationaccuracy, String manualtemp) {
+			Double locationaccuracy, Double manualtemp) {
     	DateFormat dateFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	String crntDate = dateFormatISO8601.format(new Date());
     	
@@ -216,21 +211,16 @@ public class DataDBAdapter {
         initialValues.putNull(KEY_WINDCONDITION);
         initialValues.put(KEY_TIMESTAMP, crntDate);
         initialValues.put(KEY_SERVERID, 0);
-        Double manTempDouble=null;
-        try {
-        	manTempDouble = new Double(manualtemp);
-        }
-        catch (Exception e){
+        if (manualtemp!=null)
+        	initialValues.put(KEY_MANUALTEMP, manualtemp);
+        else
         	initialValues.putNull(KEY_MANUALTEMP);
-        }
-        if (manTempDouble!=null)
-        	initialValues.put(KEY_MANUALTEMP, new Double(manualtemp));
         
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
     
     public long createLogEntryNoWeatherOrLocation(Double cricketctemp,
-			int numchirps, Double numsecs, String manualtemp) {
+			int numchirps, Double numsecs, Double manualtemp) {
     	DateFormat dateFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	String crntDate = dateFormatISO8601.format(new Date());
     	
@@ -249,15 +239,10 @@ public class DataDBAdapter {
         initialValues.put(KEY_TIMESTAMP, crntDate);
         initialValues.put(KEY_SERVERID, 0);
         Log.i("DB", "Manualtemp: "+manualtemp);
-        Double manTempDouble=null;
-        try {
-        	manTempDouble = new Double(manualtemp);
-        }
-        catch (Exception e){
+        if (manualtemp!=null)
+        	initialValues.put(KEY_MANUALTEMP, manualtemp);
+        else
         	initialValues.putNull(KEY_MANUALTEMP);
-        }
-        if (manTempDouble!=null)
-        	initialValues.put(KEY_MANUALTEMP, new Double(manualtemp));
         
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
@@ -333,7 +318,7 @@ public class DataDBAdapter {
 			String humidity, String windcondition, Double cricketctemp,
 			int numchirps, Double numsecs, Double latitude, Double longitude,
 			Double locationaccuracy, String weatherapi, String timestamp,
-			long serverid, String manualtemp) {
+			long serverid, Double manualtemp) {
         ContentValues args = new ContentValues();
         args.put(KEY_CRICKETCTEMP, cricketctemp);
         args.put(KEY_NUMCHIRPS, numchirps);
@@ -348,7 +333,7 @@ public class DataDBAdapter {
         args.put(KEY_WINDCONDITION, windcondition);
         args.put(KEY_TIMESTAMP, timestamp);
         args.put(KEY_SERVERID, serverid);
-        args.put(KEY_MANUALTEMP, new Double(manualtemp));
+        args.put(KEY_MANUALTEMP, manualtemp);
 
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }

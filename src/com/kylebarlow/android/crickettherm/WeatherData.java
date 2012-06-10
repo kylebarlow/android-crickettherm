@@ -1,5 +1,7 @@
 package com.kylebarlow.android.crickettherm;
 
+import android.content.SharedPreferences;
+
 
 /**
  * @author Kyle Barlow

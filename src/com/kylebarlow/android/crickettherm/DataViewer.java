@@ -23,13 +23,14 @@ import android.widget.TextView;
  * 
  */
 public class DataViewer extends ListActivity {
-	//TODO Fix deleting items bug where display is incorrect
+	// TODO Fix deleting items bug where display is incorrect
 	// TODO Add manual temp display, numchirps, and numsecs
 	
 	private DataDBAdapter mDbHelper;
 	private static final int DELETE_ID = Menu.FIRST;
 	private Cursor mLogCursor;
 	Boolean cTemp;
+	Boolean mOptIn=false;
 
     /** Called when the activity is first created. */
     @Override
@@ -55,18 +56,22 @@ public class DataViewer extends ListActivity {
         
         TextView crickettempd = (TextView) dialog.findViewById(R.id.datum_crickettempd);
         TextView weathertempd = (TextView) dialog.findViewById(R.id.datum_weathertempd);
+        TextView manualtempd = (TextView) dialog.findViewById(R.id.datum_manualtempd);
         Double cricketTemp;
         Double weatherTemp;
+        Double manualTemp;
         int mStringId;
         if (cTemp){
 			mStringId=R.string.degc;
 			cricketTemp=c.getDouble(c.getColumnIndexOrThrow(DataDBAdapter.KEY_CRICKETCTEMP));
 			weatherTemp=c.getDouble(c.getColumnIndexOrThrow(DataDBAdapter.KEY_CTEMP));
+			manualTemp=c.getDouble(c.getColumnIndexOrThrow(DataDBAdapter.KEY_MANUALTEMP));
 		}
 		else {
 			mStringId=R.string.degf;
 			cricketTemp=(c.getDouble(c.getColumnIndexOrThrow(DataDBAdapter.KEY_CRICKETCTEMP))*1.8)+32.0;
 			weatherTemp=(c.getDouble(c.getColumnIndexOrThrow(DataDBAdapter.KEY_CTEMP))*1.8)+32.0;
+			manualTemp=(c.getDouble(c.getColumnIndexOrThrow(DataDBAdapter.KEY_MANUALTEMP))*1.8)+32.0;
 		}
 
         if(c.isNull(c.getColumnIndexOrThrow(DataDBAdapter.KEY_CTEMP))) {
@@ -75,6 +80,10 @@ public class DataViewer extends ListActivity {
         else {
         	crickettempd.setText(String.format("%d "+getText(mStringId),Math.round(cricketTemp)));
         	weathertempd.setText(String.format("%d "+getText(mStringId),Math.round(weatherTemp)));
+        }
+        
+        if(c.isNull(c.getColumnIndexOrThrow(DataDBAdapter.KEY_MANUALTEMP))==false) {
+        	manualtempd.setText(String.format("%d "+getText(mStringId),Math.round(manualTemp)));
         }
         
         TextView conditiond = (TextView) dialog.findViewById(R.id.datum_conditiond);
@@ -118,6 +127,7 @@ public class DataViewer extends ListActivity {
     	// Restore preferences
         SharedPreferences settings = getSharedPreferences(CricketTherm.PREFS_NAME, 0);
         cTemp = settings.getBoolean("cTemp", false);
+        mOptIn = settings.getBoolean("shareData", false);
     }
     
     private void fillData() {

@@ -43,13 +43,33 @@
             android:layout_below="@+id/optionmenu_radiosTempSelect"
             android:text="@string/shareddatabox" />
 
+        <TextView
+            android:id="@+id/optionmenu_versiontag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/optionmenu_shareData"
+            android:text="@string/version"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/darkgreen" />
+        
+        <TextView
+            android:id="@+id/optionmenu_versionname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/optionmenu_versiontag"
+            android:layout_alignBottom="@+id/optionmenu_versiontag"
+            android:text="@string/versionname"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black" />
+        
         <Button
             android:id="@+id/optionmenu_exitbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/optionmenu_shareData"
+            android:layout_below="@+id/optionmenu_versiontag"
             android:text="@string/exit" />
 
     </RelativeLayout>

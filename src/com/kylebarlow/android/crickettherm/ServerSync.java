@@ -36,7 +36,6 @@ public class ServerSync {
 	
 	ServerSync(Context ctx){
 		mDbHelper = new DataDBAdapter(ctx);
-		mDbHelper.open();
 		mCtx=ctx;
 	}
 	
@@ -52,6 +51,7 @@ public class ServerSync {
        protected Integer doInBackground(String... params) {
     	   int numberSynced = 0;
     	   long rowId=0;
+    	   mDbHelper.open();
     	   Cursor allLogsCursor = mDbHelper.fetchAllLogsToSync();
     	   
     	   if (allLogsCursor.moveToFirst())
@@ -67,7 +67,7 @@ public class ServerSync {
     	   else{
     		   Log.i("ServerSync","None to sync");
     	   }
-    	   
+    	   mDbHelper.close();
     	   return numberSynced;
        }
        
@@ -102,6 +102,7 @@ public class ServerSync {
             nameValuePairs.add(new BasicNameValuePair("humidity", c.getString(c.getColumnIndexOrThrow(DataDBAdapter.KEY_HUMIDITY))));
             nameValuePairs.add(new BasicNameValuePair("windcondition", c.getString(c.getColumnIndexOrThrow(DataDBAdapter.KEY_WINDCONDITION))));
             nameValuePairs.add(new BasicNameValuePair("timestamp", c.getString(c.getColumnIndexOrThrow(DataDBAdapter.KEY_TIMESTAMP))));
+            Log.i("ServerSync","Manualtemp to sync(c):"+c.getString(c.getColumnIndexOrThrow(DataDBAdapter.KEY_MANUALTEMP)));
             nameValuePairs.add(new BasicNameValuePair("manualtemp", c.getString(c.getColumnIndexOrThrow(DataDBAdapter.KEY_MANUALTEMP))));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -144,5 +145,13 @@ public class ServerSync {
         
         // Return full string
         return total;
+    }
+    
+    protected void finalize() throws Throwable {
+        try {
+            
+        } finally {
+            super.finalize();
+        }
     }
 }
