@@ -86,8 +86,9 @@ public class CricketTherm extends Activity {
         			temperatureReading.setText(String.format("%d "+getText(stringid),Math.round(temperature)));
         		}
         		else {
-        			if (temperatureReading.getText()!=getText(R.string.temperature_not_ready)) {
+        			if (mCricket.mChirpTimeout) {
         				makeShortToast((String) getText(R.string.delaytoolong));
+        				mCricket.mChirpTimeout=false;
         			}
         			temperatureReading.setText(getText(R.string.temperature_not_ready));
         		}
@@ -223,6 +224,7 @@ public class CricketTherm extends Activity {
         String message = String.format("Lat: %f Long: %f", latitude,longitude);
         makeShortToast(message);
     }*/
+    
     
     private void makeShortToast(String message){
     	Toast.makeText(this, message,Toast.LENGTH_SHORT).show();

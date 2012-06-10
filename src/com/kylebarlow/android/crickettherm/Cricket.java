@@ -9,6 +9,7 @@ import 	android.os.SystemClock;
  */
 public class Cricket{
 
+	protected boolean mChirpTimeout;
 	private boolean mIsChirping;
 	private long mChirpStartTime;
 	private long mLastChirpTime;
@@ -20,7 +21,7 @@ public class Cricket{
 	static private final int mNumberOfSecondsToChirp = 4; // minimum number of seconds of chirping needed before temperature is ready
 	static private final double mAcceptableTempChange = 2.0; // calculated temperature is ready to be returned when this is the abs difference with the last calculated temperature
 	static private final int mMinimumNumberOfChirps = 4; // minimum number of chirps needed to calculate temperature
-	static private final int mMaxWaitTimeBetweenChirps = 6000; // max time to allow between user chirps in ms
+	static private final int mMaxWaitTimeBetweenChirps = 5000; // max time to allow between user chirps in ms
 	
 	/**
 	 * 
@@ -36,8 +37,9 @@ public class Cricket{
 			mChirpStartTime = SystemClock.uptimeMillis();
 			mIsChirping = true;
 		}
-		if((isChirping()==true)&&( (mLastChirpTime+mMaxWaitTimeBetweenChirps)<SystemClock.uptimeMillis() )) {
+		else if((isChirping()==true)&&( (mLastChirpTime+mMaxWaitTimeBetweenChirps)<SystemClock.uptimeMillis() )) {
 			reset();
+			mChirpTimeout=true;
 			mChirpStartTime = SystemClock.uptimeMillis();
 			mIsChirping = true;
 		}
@@ -91,6 +93,7 @@ public class Cricket{
 		mNumberChirps=0;
 		mPreviousTemperature=0;
 		mNumberChirpsAtLastTempCalc=0;
+		mChirpTimeout=false;
 	}
 	
 	public int numberOfChirps(){
