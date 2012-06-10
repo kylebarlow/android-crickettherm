@@ -33,6 +33,7 @@ public class CricketTherm extends Activity {
 	// TODO add EULA and copyright info
 	// TODO Add help explaining what information is saved to database
 	
+	// TODO Pass seconds in float
 	// TODO add weather fetching
 	// TODO add data saving feature in sqllite database
 	// TODO sync data with master database
@@ -155,7 +156,12 @@ public class CricketTherm extends Activity {
         if (mFirstLaunch){
         	firstLaunchYesNoAlert();
         }
-    }
+        
+        if (mOptIn){
+        	ServerSync ss = new ServerSync(this);
+        	ss.syncData();
+        }
+       }
     
     /* Function to do inital program launch permission asking */
     public void firstLaunchYesNoAlert() {
@@ -258,6 +264,7 @@ public class CricketTherm extends Activity {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         cTemp = settings.getBoolean("cTemp", false);
         mFirstLaunch = settings.getBoolean("firstLaunch", true);
+        mOptIn = settings.getBoolean("shareData", false);
     }
     
     private void reset(){
@@ -300,23 +307,5 @@ public class CricketTherm extends Activity {
         // The activity is about to be destroyed.
     }
     
-    private class ServerSync extends AsyncTask<String, Void, Integer> {
-    	
-    	ServerSync(){
-    		
-    	}
-    	
-        /** The system calls this to perform work in a worker thread and
-         * delivers it the parameters given to AsyncTask.execute() */
-       protected Integer doInBackground(String... params) {
-    	   return new Integer(5);
-       }
-       
-       /** The system calls this to perform work in the UI thread and delivers
-         * the result from doInBackground() */
-       protected void onPostExecute(WeatherData wd) {
-           weatherFetched(wd);
-       }
 
-    }
 }

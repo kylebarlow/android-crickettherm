@@ -41,4 +41,6 @@
 	<string name="datum_latitude">Latitude:</string>
 	<string name="datum_longitude">Longitude:</string>
 	<string name="datum_timestamp">Timestamp:</string>
+	<string name="datum_serversync">Server sync:</string>
+	<string name="numbersynced"> data entries were successfully synced to the server</string>
 </resources>

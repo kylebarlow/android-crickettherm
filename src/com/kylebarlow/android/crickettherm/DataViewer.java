@@ -95,6 +95,16 @@ public class DataViewer extends ListActivity {
         TextView timestampd = (TextView) dialog.findViewById(R.id.datum_timestampd);
         timestampd.setText(c.getString(c.getColumnIndexOrThrow(DataDBAdapter.KEY_TIMESTAMP)));
         
+        TextView serversyncd = (TextView) dialog.findViewById(R.id.datum_serversyncd);
+        int serverid = c.getInt(c.getColumnIndexOrThrow(DataDBAdapter.KEY_SERVERID));
+        if (serverid==1){
+        	serversyncd.setText(getText(R.string.yes));
+        }
+        else
+        {
+        	serversyncd.setText(getText(R.string.no));
+        }
+        
         return dialog;
     }
     

@@ -25,7 +25,7 @@ public class Logger extends Activity {
 	private Bundle mExtras;
 	private double mCricketTemp = 0.0;
 	private int mNumChirps = 0;
-	private int mNumSecs = 0;
+	private double mNumSecs = 0;
 	private Location mCurrentLocation;
 	private int mStringId;
 	Cricket mCricket;
@@ -123,7 +123,7 @@ public class Logger extends Activity {
         
         mCricketTemp = mExtras.getDouble("CRICKETTEMP", 0.0);
     	mNumChirps = mExtras.getInt("NUMCHIRPS", 0);
-    	mNumSecs = mExtras.getInt("NUMCHIRPS",0);
+    	mNumSecs = mExtras.getDouble("NUMSECS",0);
     	mCurrentLocation = (Location) mExtras.get("LOCATION");
     }
     

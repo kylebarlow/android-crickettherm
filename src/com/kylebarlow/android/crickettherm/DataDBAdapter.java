@@ -60,7 +60,7 @@ public class DataDBAdapter {
             + " ("+KEY_ROWID+" integer primary key autoincrement, "
                   	+KEY_CRICKETCTEMP+" float not null, "
                   	+KEY_NUMCHIRPS+" integer not null, "
-                  	+KEY_NUMSECS+" integer not null, "
+                  	+KEY_NUMSECS+" float not null, "
                   	+KEY_LATITUDE+" float, "
                   	+KEY_LONGITUDE+" float, "
                   	+KEY_LOCATIONACCURACY+" float, "
@@ -138,7 +138,7 @@ public class DataDBAdapter {
      */
     public long createLogEntry(Double ctemp, String condition, 
 			String humidity, String windcondition, Double cricketctemp,
-			int numchirps, int numsecs, Double latitude, Double longitude,
+			int numchirps, Double numsecs, Double latitude, Double longitude,
 			Double locationaccuracy, String weatherapi, String manualtemp) {
     	DateFormat dateFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	String crntDate = dateFormatISO8601.format(new Date());
@@ -197,7 +197,7 @@ public class DataDBAdapter {
     } */
     
     public long createLogEntryNoWeather(Double cricketctemp,
-			int numchirps, int numsecs, Double latitude, Double longitude,
+			int numchirps, Double numsecs, Double latitude, Double longitude,
 			Double locationaccuracy, String manualtemp) {
     	DateFormat dateFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	String crntDate = dateFormatISO8601.format(new Date());
@@ -230,7 +230,7 @@ public class DataDBAdapter {
     }
     
     public long createLogEntryNoWeatherOrLocation(Double cricketctemp,
-			int numchirps, int numsecs, String manualtemp) {
+			int numchirps, Double numsecs, String manualtemp) {
     	DateFormat dateFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	String crntDate = dateFormatISO8601.format(new Date());
     	
@@ -286,6 +286,16 @@ public class DataDBAdapter {
         		KEY_CTEMP,KEY_CONDITION,KEY_HUMIDITY,KEY_WINDCONDITION,
         		KEY_TIMESTAMP,KEY_SERVERID, KEY_MANUALTEMP}, null, null, null, null, null);
     }
+    
+    /**
+     * Return a Cursor over the list of all logs in the database not synced to the server
+     * 
+     * @return Cursor over all logs specified above
+     */
+    public Cursor fetchAllLogsToSync() {
+
+        return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID}, KEY_SERVERID+" = "+0, null, null, null, null);
+    }
 
     /**
      * Return a Cursor positioned at the log that matches the given rowId
@@ -321,7 +331,7 @@ public class DataDBAdapter {
      */
     public boolean updateLog(long rowId, Double ctemp, String condition, 
 			String humidity, String windcondition, Double cricketctemp,
-			int numchirps, int numsecs, Double latitude, Double longitude,
+			int numchirps, Double numsecs, Double latitude, Double longitude,
 			Double locationaccuracy, String weatherapi, String timestamp,
 			long serverid, String manualtemp) {
         ContentValues args = new ContentValues();
@@ -340,6 +350,18 @@ public class DataDBAdapter {
         args.put(KEY_SERVERID, serverid);
         args.put(KEY_MANUALTEMP, new Double(manualtemp));
 
+        return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
+    }
+    
+    /**
+     * Update the server status if log entry synced successfully
+     * 
+     * @param rowId id of log to update
+     * @return true if the log was successfully updated, false otherwise
+     */
+    public boolean updateSyncedStatusTrue(long rowId) {
+        ContentValues args = new ContentValues();
+        args.put(KEY_SERVERID, 1);
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
 }

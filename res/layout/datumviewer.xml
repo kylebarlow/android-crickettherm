@@ -166,5 +166,26 @@
             android:padding="3dip" />
     </TableRow>
     
+        <View
+        	android:id="@+id/datum_bar7"
+        	android:layout_width="fill_parent"
+        	android:layout_height="2dip"
+        	android:background="@color/green"/>
+    
+    <TableRow>
+        <TextView
+            android:id="@+id/datum_serversync"
+            android:layout_column="1"
+            android:text="@string/datum_serversync"
+            android:padding="3dip"
+            android:gravity="right" />
+        <TextView
+            android:id="@+id/datum_serversyncd"
+            android:layout_column="2"
+            android:text="@string/not_applicable"
+            android:gravity="left"
+            android:padding="3dip" />
+    </TableRow>
+    
     
 </TableLayout>
