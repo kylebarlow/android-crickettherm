@@ -33,6 +33,7 @@ public class CricketTherm extends Activity {
 	// TODO Add help explaining what information is saved to database
 	
 	// TODO add support for syncing deletion to server
+	// TODO add featured image graphics
 	
 	
 	// Class todos
