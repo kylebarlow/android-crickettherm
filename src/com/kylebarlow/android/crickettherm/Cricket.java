@@ -17,11 +17,10 @@ public class Cricket{
 	private int mNumberChirps;
 	private int mNumberChirpsAtLastTempCalc;
 	private double mPreviousTemperature;
-	// TODO Change below variable set for testing
-	static private final int mNumberOfSecondsToChirp = 1; // minimum number of seconds of chirping needed before temperature is ready
+	static private final int mNumberOfSecondsToChirp = 4; // minimum number of seconds of chirping needed before temperature is ready
 	static private final double mAcceptableTempChange = 2.0; // calculated temperature is ready to be returned when this is the abs difference with the last calculated temperature
 	static private final int mMinimumNumberOfChirps = 4; // minimum number of chirps needed to calculate temperature
-	static private final int mMaxWaitTimeBetweenChirps = 5000; // max time to allow between user chirps in ms
+	static private final int mMaxWaitTimeBetweenChirps = 6000; // max time to allow between user chirps in ms
 	
 	/**
 	 * 

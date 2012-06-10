@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -89,7 +88,7 @@ public class Logger extends Activity {
     		locationReady=false;
     	}
     	final EditText manualTemp = (EditText) findViewById(R.id.logger_manreport);
-    	Log.i("Logger","Mantempfield: "+manualTemp.getText().toString());
+    	//Log.i("Logger","Mantempfield: "+manualTemp.getText().toString());
         Double manTempDouble;
         try {
         	manTempDouble = new Double(manualTemp.getText().toString());
@@ -115,6 +114,11 @@ public class Logger extends Activity {
     				mCurrentLocation.getLongitude(),
     				new Double (mCurrentLocation.getAccuracy()),
     				manTempDouble);
+    	}
+    	else if ((mWD.mDataReady==true)&&(locationReady==false)){
+    		mDbHelper.createLogEntryNoLocation(mWD.getCTemperature(), mWD.mCondition, 
+    				mWD.mHumidity, mWD.mWindCondition, mCricketTemp, 
+    				mNumChirps, mNumSecs, APITOUSE, manTempDouble);
     	}
     	else {
     		mDbHelper.createLogEntryNoWeatherOrLocation(mCricketTemp,
@@ -160,10 +164,10 @@ public class Logger extends Activity {
     private void fetchWeather(){
 		if ((System.currentTimeMillis()-mLastWeatherUpdate)<TIMEBETWEENUPDATES){
 			// Too soon to last update
-			Log.i("Logger", "Using cached weather data (if exists)");
+			//Log.i("Logger", "Using cached weather data (if exists)");
 		}
 		else {
-			Log.i("Logger", "Fetching fresh weather");
+			//Log.i("Logger", "Fetching fresh weather");
 			new Weather(mCurrentLocation,mWeatherGetter).execute(APITOUSE);
 		}
 		if (mWD.mDataReady)

@@ -165,10 +165,9 @@ public class DataDBAdapter {
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
     
-    /*
     public long createLogEntryNoLocation(Double ctemp, String condition, 
 			String humidity, String windcondition, Double cricketctemp,
-			int numchirps, int numsecs, String weatherapi, String manualtemp) {
+			int numchirps, Double numsecs, String weatherapi, Double manualtemp) {
     	DateFormat dateFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	String crntDate = dateFormatISO8601.format(new Date());
     	
@@ -186,10 +185,13 @@ public class DataDBAdapter {
         initialValues.put(KEY_WINDCONDITION, windcondition);
         initialValues.put(KEY_TIMESTAMP, crntDate);
         initialValues.put(KEY_SERVERID, 0);
-        initialValues.put(KEY_MANUALTEMP, new Double(manualtemp));
+        if (manualtemp!=null)
+        	initialValues.put(KEY_MANUALTEMP, manualtemp);
+        else
+        	initialValues.putNull(KEY_MANUALTEMP);
         
         return mDb.insert(DATABASE_TABLE, null, initialValues);
-    } */
+    }
     
     public long createLogEntryNoWeather(Double cricketctemp,
 			int numchirps, Double numsecs, Double latitude, Double longitude,

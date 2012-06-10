@@ -31,7 +31,8 @@ public class CricketTherm extends Activity {
 	// TODO http://www.openclipart.org/
 	// TODO add EULA and copyright info
 	// TODO Add help explaining what information is saved to database
-	// TODO Add version specifier on options screen
+	
+	// TODO add support for syncing deletion to server
 	
 	
 	// Class todos

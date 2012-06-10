@@ -208,5 +208,47 @@
             android:padding="3dip" />
     </TableRow>
     
+    <View
+        	android:id="@+id/datum_bar9"
+        	android:layout_width="fill_parent"
+        	android:layout_height="2dip"
+        	android:background="@color/green"/>
+    
+    <TableRow>
+        <TextView
+            android:id="@+id/datum_numchirps"
+            android:layout_column="1"
+            android:text="@string/chirps"
+            android:padding="3dip"
+            android:gravity="right" />
+        <TextView
+            android:id="@+id/datum_numchirpsd"
+            android:layout_column="2"
+            android:text="@string/not_applicable"
+            android:gravity="left"
+            android:padding="3dip" />
+    </TableRow>
+    
+    <View
+        	android:id="@+id/datum_bar10"
+        	android:layout_width="fill_parent"
+        	android:layout_height="2dip"
+        	android:background="@color/green"/>
+    
+    <TableRow>
+        <TextView
+            android:id="@+id/datum_numsecs"
+            android:layout_column="1"
+            android:text="@string/seconds"
+            android:padding="3dip"
+            android:gravity="right" />
+        <TextView
+            android:id="@+id/datum_numsecsd"
+            android:layout_column="2"
+            android:text="@string/not_applicable"
+            android:gravity="left"
+            android:padding="3dip" />
+    </TableRow>
+    
     
 </TableLayout>

@@ -17,8 +17,6 @@ import org.apache.http.message.BasicNameValuePair;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
 
 
 /**
@@ -32,6 +30,7 @@ public class ServerSync {
 	private static final String SUCCESS = "<html><body>SUCCESS";
 	
 	private DataDBAdapter mDbHelper;
+	@SuppressWarnings("unused")
 	private Context mCtx;
 	
 	ServerSync(Context ctx){
@@ -65,7 +64,7 @@ public class ServerSync {
     	        } while (allLogsCursor.moveToNext());
     	    }
     	   else{
-    		   Log.i("ServerSync","None to sync");
+    		   //Log.i("ServerSync","None to sync");
     	   }
     	   mDbHelper.close();
     	   return numberSynced;
@@ -74,7 +73,7 @@ public class ServerSync {
        /** The system calls this to perform work in the UI thread and delivers
          * the result from doInBackground() */
        protected void onPostExecute(Integer numberSynced) {
-    	   Log.i("ServerSync","Synced "+numberSynced);
+    	   //Log.i("ServerSync","Synced "+numberSynced);
        }
 
     }
@@ -85,7 +84,7 @@ public class ServerSync {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(POSTURL);
         Cursor c = mDbHelper.fetchLog(rowId);
-        Log.i("ServerSync","Syncing row"+rowId);
+        //Log.i("ServerSync","Syncing row"+rowId);
         try {
             // Add your data
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
@@ -102,7 +101,7 @@ public class ServerSync {
             nameValuePairs.add(new BasicNameValuePair("humidity", c.getString(c.getColumnIndexOrThrow(DataDBAdapter.KEY_HUMIDITY))));
             nameValuePairs.add(new BasicNameValuePair("windcondition", c.getString(c.getColumnIndexOrThrow(DataDBAdapter.KEY_WINDCONDITION))));
             nameValuePairs.add(new BasicNameValuePair("timestamp", c.getString(c.getColumnIndexOrThrow(DataDBAdapter.KEY_TIMESTAMP))));
-            Log.i("ServerSync","Manualtemp to sync(c):"+c.getString(c.getColumnIndexOrThrow(DataDBAdapter.KEY_MANUALTEMP)));
+            //Log.i("ServerSync","Manualtemp to sync(c):"+c.getString(c.getColumnIndexOrThrow(DataDBAdapter.KEY_MANUALTEMP)));
             nameValuePairs.add(new BasicNameValuePair("manualtemp", c.getString(c.getColumnIndexOrThrow(DataDBAdapter.KEY_MANUALTEMP))));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -115,7 +114,7 @@ public class ServerSync {
             	
             }
             if (response!=null){
-            	Log.i("ServerSync","Response="+response);
+            	//Log.i("ServerSync","Response="+response);
             	if (new String(response).startsWith(SUCCESS)){
             		return true;
             	}

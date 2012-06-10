@@ -3,6 +3,7 @@ package com.kylebarlow.android.crickettherm;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -23,8 +24,7 @@ import android.widget.TextView;
  * 
  */
 public class DataViewer extends ListActivity {
-	// TODO Fix deleting items bug where display is incorrect
-	// TODO Add manual temp display, numchirps, and numsecs
+	// Fixed deleting items bug where display is incorrect?
 	
 	private DataDBAdapter mDbHelper;
 	private static final int DELETE_ID = Menu.FIRST;
@@ -114,6 +114,12 @@ public class DataViewer extends ListActivity {
         	serversyncd.setText(getText(R.string.no));
         }
         
+        TextView numchirpsd = (TextView) dialog.findViewById(R.id.datum_numchirpsd);
+        numchirpsd.setText(String.format("%d", c.getLong(c.getColumnIndexOrThrow(DataDBAdapter.KEY_NUMCHIRPS))));
+        
+        TextView numsecsd = (TextView) dialog.findViewById(R.id.datum_numsecsd);
+        numsecsd.setText(String.format("%f", c.getDouble(c.getColumnIndexOrThrow(DataDBAdapter.KEY_NUMSECS))));
+        
         return dialog;
     }
     
@@ -160,7 +166,9 @@ public class DataViewer extends ListActivity {
             case DELETE_ID:
                 AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
                 mDbHelper.deleteLog(info.id);
-                fillData();
+                Intent i = getIntent();
+                finish();
+                startActivity(i);
                 return true;
         }
         return super.onContextItemSelected(item);
