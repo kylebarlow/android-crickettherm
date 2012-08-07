@@ -43,15 +43,17 @@ public class WeatherGetter {
 	
 	protected WeatherData getCurrentWeather(Location currentLocation){
 		
-		//Log.i("WeatherGetter", "Launching");
+		////Log.i("WeatherGetter", "Launching");
 		
 		//mLastWeatherUpdate=System.currentTimeMillis();
-		if (currentLocation==null)
+		if (currentLocation==null) {
+			////Log.i("WeatherGetter", "No location, returning null data");
 			return new WeatherData();
+		}
 		mLatitude=currentLocation.getLatitude();
 		mLongitude=currentLocation.getLongitude();
 		if (mApiToUse.equalsIgnoreCase("google")){
-			//Log.i("WeatherGetter", "Getting google weather");
+			////Log.i("WeatherGetter", "Getting google weather");
 			return getGoogleWeather();
 		}
 		return new WeatherData();
@@ -85,19 +87,22 @@ public class WeatherGetter {
 			e.printStackTrace();
 			//Log.e("WeatherGetter", latitude);
 			//Log.e("WeatherGetter", longitude);
+			////Log.i("WeatherGetter", "Couldn't get url, returning null weather data");
 			return new WeatherData();
 		}
 		
 		Element rootElement = document.getDocumentElement();
 		Element weatherElement = getNode(rootElement,"weather");
 		if (weatherElement==null) {
-			//Log.i("XMLParse", "no match in: "+rootElement.getNodeName());
+			////Log.i("XMLParse", "no match in: "+rootElement.getNodeName());
+			////Log.i("WeatherGetter", "Couldn't parse xml, returning null weather data");
 			return new WeatherData();
 		}
-		//Log.i("XMLParse", "Found node: "+weatherElement.getNodeName());
+		////Log.i("XMLParse", "Found node: "+weatherElement.getNodeName());
 		
 		Element currentConditionsElement = getNode(weatherElement,"current_conditions");
 		if (currentConditionsElement==null) {
+			////Log.i("WeatherGetter", "Couldn't get current conditions, returning null weather data");
 			return new WeatherData();
 		}
 		
@@ -118,7 +123,7 @@ public class WeatherGetter {
 			  if(node.getNodeName().equals("condition")){
 				  Element child = (Element) node;
 				  condition = child.getAttribute("data");
-				  //Log.i("XMLParse", "condition = "+condition);
+				  ////Log.i("XMLParse", "condition = "+condition);
 			  }
 			  
 			  if(node.getNodeName().equals("temp_f")){
@@ -143,8 +148,10 @@ public class WeatherGetter {
 			}
 		
 		// Both temperature reading failed, return empty weatherdata
-		if ((temp_c_str==null)&&(temp_f_str==null))
+		if ((temp_c_str==null)&&(temp_f_str==null)) {
+			////Log.i("WeatherGetter", "Couldn't get temp, returning null weather data");
 			return new WeatherData();
+		}
 		
 		// Only temp_c is null
 		if (temp_c_str==null) {
@@ -163,6 +170,7 @@ public class WeatherGetter {
 		}
 		
 		//mLastWeatherUpdate = System.currentTimeMillis();
+		////Log.i("WeatherGetter", "Got wetaher, returning new weather data");
 		return new WeatherData(temp_c, temp_f, condition, humidity, wind_condition);
 	}
 	

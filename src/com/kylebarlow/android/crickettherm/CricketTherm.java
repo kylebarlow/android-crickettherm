@@ -210,7 +210,7 @@ public class CricketTherm extends Activity {
             /* Testing code
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
-            newLocation(latitude,longitude);*/
+            newLocation(latitude,longitude); */
           }
 
           public void onStatusChanged(String provider, int status, Bundle extras) {}
@@ -224,7 +224,7 @@ public class CricketTherm extends Activity {
     private void newLocation(double latitude, double longitude){
         String message = String.format("Lat: %f Long: %f", latitude,longitude);
         makeShortToast(message);
-    }*/
+    } */
     
     
     private void makeShortToast(String message){
