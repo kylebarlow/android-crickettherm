@@ -44,6 +44,6 @@
 	<string name="datum_serversync">Server synced:</string>
 	<string name="datum_manualtemp">Manual temp:</string>
 	<string name="numbersynced"> data entries were successfully synced to the server</string>
-	<string name="versionname">0.9</string>
+	<string name="versionname">0.91</string>
 	<string name="version">App Version:</string>
 </resources>

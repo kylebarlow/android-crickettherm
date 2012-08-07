@@ -25,13 +25,13 @@
             <RadioButton
                 android:id="@+id/optionmenu_cbutton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:text="@string/celsius" />
 
             <RadioButton
                 android:id="@+id/optionmenu_fbutton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="@string/fahrenheit" />
         </RadioGroup>
 
