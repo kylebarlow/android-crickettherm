@@ -29,7 +29,7 @@
     <string name="datalogged">Data logged</string>
     <string name="logger_crickettemp">Cricket estimated temperature:</string>
     <string name="logger_logit">Log Data</string>
-    <string name="logger_weathertemp">Real temperature (from Google weather):</string>
+    <string name="logger_weathertemp">Real temperature:</string>
     <string name="logger_manreport">Manually reported temperature (optional):</string>
     <string name="delaytoolong">Interval between chirps too long! Resetting&#8230;</string>
 	<string name="tempnotready">Logging can only be performed when enough chirps have been recorded to produce an estimated temperature</string>
@@ -44,6 +44,7 @@
 	<string name="datum_serversync">Server synced:</string>
 	<string name="datum_manualtemp">Manual temp:</string>
 	<string name="numbersynced"> data entries were successfully synced to the server</string>
-	<string name="versionname">0.91</string>
+	<string name="versionname">0.93</string>
 	<string name="version">App Version:</string>
+	<string name="logo_description">wunderground.com</string>
 </resources>

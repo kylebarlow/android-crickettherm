@@ -29,7 +29,7 @@
     <string name="datalogged">Datos guardados</string>
     <string name="logger_crickettemp">Temperatura estimada según el canto del grillo:</string>
     <string name="logger_logit">Registrar los datos</string>
-    <string name="logger_weathertemp">Temperatura real (comparado con Google Weather):</string>
+    <string name="logger_weathertemp">Temperatura real:</string>
     <string name="logger_manreport">La temperatura introducida manualmente (opcional):</string>
     <string name="delaytoolong">El intervalo entre chirridos era demasiado largo! Reiniciando&#8230;</string>
 	<string name="tempnotready">Sólo se pueden salvar los datos cuando el número de chirridos registrados es suficiente para producir una buena estimación de la temperatura</string>
@@ -44,6 +44,5 @@
 	<string name="datum_serversync">Servidor sincronizado:</string>
 	<string name="datum_manualtemp">Temperatura manual:</string>
 	<string name="numbersynced"> datos sincronizados con éxito</string>
-	<string name="versionname">0.91</string>
 	<string name="version">Versión de la aplicación:</string>
 </resources>

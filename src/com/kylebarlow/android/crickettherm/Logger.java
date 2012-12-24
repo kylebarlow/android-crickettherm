@@ -4,14 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,8 +39,9 @@ public class Logger extends Activity {
 	private DataDBAdapter mDbHelper;
 	
 	// Hard coded constants
-	private static final String APITOUSE = "google";
-	private static final long TIMEBETWEENUPDATES=300000; // Time between fetches in ms
+	private static final String APITOUSE = "wunderground";
+	private static final String wunderlink = "http://www.wunderground.com/?apiref=9ec642ec0a15ce3c";
+	private static final long TIMEBETWEENUPDATES=600000; // Time between fetches in ms
 	
     /** Called when the activity is first created. */
     @Override
@@ -77,6 +82,15 @@ public class Logger extends Activity {
         	}
         });
         
+        final ImageView logo = (ImageView) findViewById(R.id.imageView1);
+        logo.setOnTouchListener(new OnTouchListener() {
+        	@Override
+            public boolean onTouch(View arg0, MotionEvent arg1) {
+        		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(wunderlink));
+        		startActivity(browserIntent);
+        		return true;
+        	}
+        });
     }
     
     private void saveLogData(){
@@ -91,7 +105,7 @@ public class Logger extends Activity {
     	//Log.i("Logger","Mantempfield: "+manualTemp.getText().toString());
         Double manTempDouble;
         try {
-        	manTempDouble = new Double(manualTemp.getText().toString());
+        	manTempDouble = Double.valueOf(manualTemp.getText().toString());
         	if (cTemp==false) {
         		manTempDouble = (manTempDouble-32.0)*(5.0/9.0);
         	}
@@ -105,14 +119,14 @@ public class Logger extends Activity {
     				mWD.mHumidity, mWD.mWindCondition, mCricketTemp,
     				mNumChirps, mNumSecs, mCurrentLocation.getLatitude(), 
     				mCurrentLocation.getLongitude(),
-    				new Double (mCurrentLocation.getAccuracy()), APITOUSE,
+    				Double.valueOf(mCurrentLocation.getAccuracy()), APITOUSE,
     				manTempDouble);
     	}
     	else if ((mWD.mDataReady==false)&&locationReady){
     		mDbHelper.createLogEntryNoWeather(mCricketTemp, mNumChirps, mNumSecs,
     				mCurrentLocation.getLatitude(), 
     				mCurrentLocation.getLongitude(),
-    				new Double (mCurrentLocation.getAccuracy()),
+    				Double.valueOf(mCurrentLocation.getAccuracy()),
     				manTempDouble);
     	}
     	else if ((mWD.mDataReady==true)&&(locationReady==false)){
@@ -219,8 +233,8 @@ public class Logger extends Activity {
         SharedPreferences settings = getSharedPreferences(CricketTherm.PREFS_NAME, 0);
         Boolean dataready = settings.getBoolean("savedDataReady", false);
         if (dataready) {
-        	Double ctemp = new Double(settings.getFloat("savedCTemp", 0));
-        	Double ftemp = new Double(settings.getFloat("savedFTemp", 0));
+        	Double ctemp = Double.valueOf(settings.getFloat("savedCTemp", 0));
+        	Double ftemp = Double.valueOf(settings.getFloat("savedFTemp", 0));
         	String condition = settings.getString("savedCondition","");
         	String humidity = settings.getString("savedHumidity", "");
         	String windcondition = settings.getString("savedWindCondition", "");

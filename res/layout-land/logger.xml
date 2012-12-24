@@ -49,7 +49,7 @@
     	
     	<TextView  
 			android:id="@+id/logger_weathertemptitle"
-    		android:layout_width="fill_parent" 
+    		android:layout_width="wrap_content" 
     		android:layout_height="wrap_content" 
     		android:text="@string/logger_weathertemp"
     		android:textSize="20sp"
@@ -60,7 +60,7 @@
 		
 		<TextView  
 			android:id="@+id/logger_weathertemp"
-    		android:layout_width="fill_parent" 
+    		android:layout_width="wrap_content" 
     		android:layout_height="wrap_content" 
     		android:text="@string/notavailable"
     		android:textSize="20sp"
@@ -148,6 +148,17 @@
 
 </LinearLayout>
     	
-		
+    	<ImageView
+    	    android:id="@+id/imageView1"
+    	    android:contentDescription="@string/logo_description"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_alignTop="@+id/logger_weathertemptitle"
+    	    android:layout_toRightOf="@+id/logger_weathertemptitle"
+    	    android:adjustViewBounds="true"
+    	    android:maxHeight="40sp"
+    	    android:paddingTop="5sp"
+    	    android:paddingLeft="15sp"
+    	    android:src="@drawable/wundergroundlogo_4c_horz" />		
 		
     </RelativeLayout>

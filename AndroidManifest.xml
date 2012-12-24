@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.kylebarlow.android.crickettherm"
-      android:versionCode="2"
+      android:versionCode="4"
       android:versionName="@string/versionname" >
-    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="14"/>
+    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="17"/>
     
     <!-- Permission for internet access -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,7 +14,7 @@
     
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:theme="@style/Theme.Lighttheme">
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:theme="@style/Theme.Lighttheme" android:allowBackup="true">
         <activity android:name=".CricketTherm"
                   android:label="@string/app_name">
             <intent-filter>
